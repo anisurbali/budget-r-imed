@@ -8,12 +8,6 @@ source(here("R", "01_load_packages.R"))
 
 df <- readRDS(here("data/final/budget_df.rds"))
 
-## convert the data into crore
-
-df <- df %>% 
-  mutate(across(
-    c(3:5, 12:32), ~.x/10000
-  ))
 
 ## make a df for 5 years graph
 
