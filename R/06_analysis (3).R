@@ -2,6 +2,10 @@
 
 rm(list = ls())
 
+library(here)
+
+source(here("R", "01_load_packages.R"))
+
 df <- readRDS(here("data/final/budget_df.rds"))
 
 ## convert the data into crore
@@ -64,9 +68,9 @@ op_color <- "#9CD5FF"
 dev_color <-  "#7AB2B2"
 total_color <- "#80A1BA"
 
-font_add("bangla_font", "C:/Users/Md. Mamunul Karim/AppData/Local/Microsoft/Windows/Fonts/NikoshBAN.ttf")
+#font_add("bangla_font", "C:/Users/Md. Mamunul Karim/AppData/Local/Microsoft/Windows/Fonts/NikoshBAN.ttf")
 
-#font_add("bangla_font", "C:/Users/bmani/AppData/Local/Microsoft/Windows/Fonts/NikoshBAN.ttf")
+font_add("bangla_font", here(font_path, "NikoshBAN.ttf"))
 
 
 showtext_auto()

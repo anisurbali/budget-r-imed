@@ -113,7 +113,7 @@ saveRDS(raw_data, here("data/processed/exp_5yr.rds"))
 
 
 #---------------------------------------------------------------------------
-#             Import detail expenditure data from 24-25
+#             Import  detail expenditure data from 24-25
 #----------------------------------------------------------------------------
 
 
