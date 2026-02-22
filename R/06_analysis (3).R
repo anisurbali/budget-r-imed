@@ -55,6 +55,11 @@ plot_df <- plot_df %>%
 
 
 ############################################
+#------------------------------------------------------------------------------
+#                 1-5 years budget graph Graph 1
+#-------------------------------------------------------------------------------
+
+
 
 ## color code
 
@@ -65,7 +70,6 @@ total_color <- "#80A1BA"
 #font_add("bangla_font", "C:/Users/Md. Mamunul Karim/AppData/Local/Microsoft/Windows/Fonts/NikoshBAN.ttf")
 
 font_add("bangla_font", here(font_path, "NikoshBAN.ttf"))
-
 
 showtext_auto()
 
@@ -122,11 +126,14 @@ p
   ggsave(here("output/figures/1_5yrs.png"), plot = p, width = 12, height = 6, units = "in", dpi = "print")
 
 
+#-------------------------------------------------------------------------------  
+  
 ############################################
 
 # stacked column chart for operating and development ratio
 ##################################################################
-
+#-------------------------------------------------------------------------------
+  
 plot_ratio <- plot_df %>% 
   filter(type != "Total") %>% 
   group_by(year) %>% 
@@ -182,34 +189,34 @@ p
 ggsave(here("output/figures/2_ratio.png"), plot = p, width = 12, height = 6, units = "in", dpi = "print")
 
 
-############################################################################################################
-##            five years budget expenditure capacity
-##################################################################################
+#-------------------------------------------------------------------------------
 
+################################################################################
+##            five years budget expenditure capacity
+#################################################################################
+
+#-------------------------------------------------------------------------------
 
 
 exp_df <- df %>% 
   filter(type == 1) %>% 
-  select(c(19:32)) %>% 
+  select(c(19:38)) %>% 
   summarise(across(everything(), ~sum(.x, na.rm = TRUE)))
 
 ## make a table
 
 op_table <- tibble(
-  year = c("2022-23", "2023-24", "2024-25", "2025-26"),
-  budget = c(exp_df$budget22_23, exp_df$budget23_24, exp_df$budget24_25, exp_df$budget25_26),
-  corrected = c(exp_df$corrected22_23, exp_df$corrected23_24, exp_df$corrected24_25, exp_df$corrected25_26),
-  actual = c(exp_df$actual22_23, exp_df$actual23_24, exp_df$actual24_25, exp_df$actual25_26)
+  year = c("2020-21", "2021-22", "2022-23", "2023-24", "2024-25", "2025-26"),
+  budget = c(exp_df$budget20_21, exp_df$`budget21-22`, exp_df$budget22_23,
+             exp_df$budget23_24, exp_df$budget24_25, exp_df$budget25_26),
+  corrected = c(exp_df$`corrected20-21`, exp_df$corrected21_22, 
+                exp_df$corrected22_23, exp_df$corrected23_24,
+                exp_df$corrected24_25, exp_df$corrected25_26),
+  actual = c(exp_df$actual20_21, exp_df$`actual21-22`, exp_df$actual22_23, 
+             exp_df$actual23_24, exp_df$actual24_25, exp_df$actual25_26)
 )
 
-new_row <- data.frame(
-  year = "2021-22",
-  budget = 51.17,
-  corrected = 51.97,
-  actual = 46.00
-)
 
-op_table <- bind_rows(new_row, op_table)
 
 op_table$ratio_exp <- op_table$actual/op_table$corrected
 
@@ -233,6 +240,12 @@ scale_factor <- max(df_long$value[df_long$type != "ratio_exp"], na.rm = TRUE) /
 bar_df  <- df_long %>% filter(type %in% c("budget","actual","corrected"))
 line_df <- df_long %>% filter(type == "ratio_exp")
 
+
+bar_df <- bar_df %>% 
+  mutate(
+    type = factor(type, levels = c("budget", "corrected", "actual"))
+  )
+
 p <- ggplot() +
   
   # ---------------- Bars ----------------
@@ -248,7 +261,7 @@ geom_col(
     data = bar_df,
     aes(x = year, y = value, label = round(value,2), group = type),
     position = position_dodge(width = 0.7),
-    hjust = 1,
+    hjust = 1.5,
     size = 20,
     angle = 90
   ) +
@@ -291,14 +304,21 @@ scale_y_continuous(
   
   # ---------------- Colors ----------------
 scale_fill_manual(values = c(
-  "budget"    = "#1b9e77",
-  "actual"    = "#d95f02",
-  "corrected" = "#7570b3"
-)) +
+  "budget"    = "#3A9AFF",
+  "actual"    = "#BCD9A2",
+  "corrected" = "#FB9B8F"
+  ),
+labels = c(
+  "budget"    = "Budget",
+  "actual"    = "Actual",
+  "corrected" = "Revised"
+  )
+) +
   
   scale_color_manual(values = c(
-    "ratio_exp" = "red"
-  )) +
+    "ratio_exp" = "#3D45AA"),
+    labels = c("ratio_exp" = "Ratio of Actual to Revised")
+  ) +
   
   # Merge legends
   labs(fill = "", color = "") +
@@ -310,8 +330,11 @@ theme(
   legend.position = "bottom",
   legend.direction = "horizontal",
   legend.box = "horizontal",
-  axis.text = element_text(size = 30,
-                             color = "black")
+  legend.text = element_text(size = 40),
+  axis.text = element_text(size = 40,
+                             color = "black"),
+  axis.title.x = element_blank(),
+  axis.title.y = element_text(size = 30)
 ) +
   
   guides(
