@@ -1,8 +1,12 @@
 ## import form 8b1
+rm(list = ls())
 
+library(here)
+
+source(here("R", "01_load_packages.R"))
 
 raw_data <- read_excel(
-  here("data/raw/bc1_form_8b2_development_detailsadp_e1y2dzkui.xls"),
+  here(drive, "data/raw/bc1_form_8b2_development_detailsadp_e1y2dzkui.xls"),
   sheet = 1)
 
 

@@ -1,6 +1,15 @@
 
+## import form 8b1
 rm(list = ls())
-## import 5 years operating data from 2024-25
+
+library(here)
+
+source(here("R", "01_load_packages.R"))
+
+raw_data <- read_excel(
+  here(drive, "data/raw/bc1_form_8b2_development_detailsadp_e1y2dzkui.xls"),
+  sheet = 1)
+
 
 raw_data <- read_excel(here("data/raw/expenditure_detail_5yr.xls"))
 
@@ -104,7 +113,7 @@ saveRDS(raw_data, here("data/processed/exp_5yr.rds"))
 
 
 #---------------------------------------------------------------------------
-#             Import detail expenditure data from 25-26
+#             Import detail expenditure data from 24-25
 #----------------------------------------------------------------------------
 
 
