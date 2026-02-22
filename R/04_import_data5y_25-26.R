@@ -216,3 +216,7 @@ raw_data <- raw_data %>%
 raw_data <- raw_data %>%
   mutate(across(3:7,
                 ~as.numeric(str_replace_all(., ",", ""))))
+
+
+## save the data
+saveRDS(raw_data, here("data/processed/exp_5yr24_25.rds"))
