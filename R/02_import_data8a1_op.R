@@ -9,9 +9,12 @@ raw_data <- read_excel(
 ## rename the columns
 
 colnames(raw_data) <- c("economic_code", "code_name",
-                        "budget25_26", "estimate26_27", "projection27_28",
-                        "projection28_29", "additional")
+                        "budget25_26", "budget26_27", "budget27_28",
+                        "budget28_29", "additional")
 
+
+## remove 25-26 budget data
+raw_data$budget25_26 <- NULL
 
 
 ## make column for office names and activity names
@@ -43,8 +46,7 @@ raw_data <- raw_data %>%
         nchar(raw_data$economic_code)==9,
       raw_data$code_name,
       NA
-    )
-  )
+    ))
 
 
 
@@ -94,6 +96,8 @@ raw_data <- raw_data %>%
     inst_code = if_else(is.na(raw_data$activity_code), raw_data$inst_code, 
                         substr(raw_data$inst_code,1,7))
   )
+
+raw_data$type = 1
 
 
 ## save the data
