@@ -220,7 +220,7 @@ op_table <- tibble(
 
 op_table$ratio_exp <- op_table$actual/op_table$corrected
 
-saveRDS(op_table, here("data/final/table3"))
+saveRDS(op_table, here("data/final/table3.rds"))
 
 
 ## ------------------------------------------------------------------------------

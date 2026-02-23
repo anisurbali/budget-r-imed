@@ -5,50 +5,40 @@
 
 rm(list = ls())
 
+library(here)
+
+source(here("R", "01_load_packages.R"))
+
 df <- readRDS(here("data/final/budget_df.rds"))
 
-## convert the data into crore
-
-df <- df %>% 
-  mutate(across(
-    c(3:5, 12:32), ~.x/10000
-  ))
 
 
 #____________________ Table 6_______________________________________________
 #--------------------Development Expenditure 5yr Table---------------------------
 exp_df <- df %>% 
   filter(type == 2) %>% 
-  select(c(19:32)) %>% 
+  select(c(19:38)) %>% 
   summarise(across(everything(), ~sum(.x, na.rm = TRUE)))
 
 ## make a table
 
 dev_table <- tibble(
-  year = c("2022-23", "2023-24", "2024-25", "2025-26"),
-  budget = c(exp_df$budget22_23, exp_df$budget23_24, exp_df$budget24_25, exp_df$budget25_26),
-  corrected = c(exp_df$corrected22_23, exp_df$corrected23_24, exp_df$corrected24_25, exp_df$corrected25_26),
-  actual = c(exp_df$actual22_23, exp_df$actual23_24, exp_df$actual24_25, exp_df$actual25_26)
+  year = c("2020-21", "2021-22", "2022-23", "2023-24", "2024-25", "2025-26"),
+  budget = c(exp_df$budget20_21, exp_df$`budget21-22`, exp_df$budget22_23,
+             exp_df$budget23_24, exp_df$budget24_25, exp_df$budget25_26),
+  corrected = c(exp_df$`corrected20-21`, exp_df$corrected21_22, 
+                exp_df$corrected22_23, exp_df$corrected23_24,
+                exp_df$corrected24_25, exp_df$corrected25_26),
+  actual = c(exp_df$actual20_21, exp_df$`actual21-22`, exp_df$actual22_23, 
+             exp_df$actual23_24, exp_df$actual24_25, exp_df$actual25_26)
 )
 
-new_row <- data.frame(
-  year = "2021-22",
-  budget = 205.85,
-  corrected = 155.74,
-  actual = 154
-)
-dev_table <- bind_rows(new_row, dev_table)
 
-new_row <- data.frame(
-  year = "2020-21",
-  budget = 92.57,
-  corrected = 124.83,
-  actual = 121.01
-)
 
-dev_table <- bind_rows(new_row, dev_table)
 
 dev_table$ratio_exp <- dev_table$actual/dev_table$corrected
+
+saveRDS(dev_table, here("data/final/table6.rds"))
 
 #--------------------------------------------------------------------------
 #-----------------graph for five year development budget exp cabacity-----------
@@ -75,7 +65,7 @@ bar_df  <- df_long %>% filter(type %in% c("budget","actual","corrected"))
 line_df <- df_long %>% filter(type == "ratio_exp")
 
 
-font_add("bangla_font", "C:/Users/bmani/AppData/Local/Microsoft/Windows/Fonts/NikoshBAN.ttf")
+font_add("bangla_font", here(font_path, "NikoshBAN.ttf"))
 showtext_auto()
 
 
@@ -142,13 +132,19 @@ scale_y_continuous(
   
   # ---------------- Colors ----------------
 scale_fill_manual(values = c(
-  "budget"    = "#1b9e77",
-  "actual"    = "#d95f02",
-  "corrected" = "#7570b3"
+  "budget"    = "#3A9AFF",
+  "actual"    = "#BCD9A2",
+  "corrected" = "#FB9B8F"
+),
+labels = c(
+  "budget"    = "Budget",
+  "actual"    = "Actual",
+  "corrected" = "Revised"
 )) +
   
   scale_color_manual(values = c(
-    "ratio_exp" = "red"
+    "ratio_exp" = "#3D45AA"),
+    labels = c("ratio_exp" = "Ratio of Actual to Revised"
   )) +
   
   # Merge legends
@@ -162,8 +158,9 @@ theme(
   legend.direction = "horizontal",
   legend.box = "horizontal",
   legend.text = element_text(size = 30),
-  axis.text = element_text(size = 30,
-                           color = "black")
+  axis.text = element_text(size = 40,
+                           color = "black"),
+  axis.title.x = element_blank()
 ) +
   
   guides(
