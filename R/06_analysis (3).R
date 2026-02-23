@@ -63,9 +63,9 @@ plot_df <- plot_df %>%
 
 ## color code
 
-op_color <- "#9CD5FF"
-dev_color <-  "#7AB2B2"
-total_color <- "#80A1BA"
+op_color <- "#9CCFFF"
+dev_color <-  "#FFA6A6"
+total_color <- "#D8E983"
 
 #font_add("bangla_font", "C:/Users/Md. Mamunul Karim/AppData/Local/Microsoft/Windows/Fonts/NikoshBAN.ttf")
 
@@ -219,6 +219,8 @@ op_table <- tibble(
 
 
 op_table$ratio_exp <- op_table$actual/op_table$corrected
+
+saveRDS(op_table, here("data/final/table3"))
 
 
 ## ------------------------------------------------------------------------------
