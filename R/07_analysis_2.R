@@ -5,10 +5,7 @@ df <- readRDS(here("data/final/budget_df.rds"))
 
 # keep operating data only
 
-df <- df %>% filter(type == 1) %>% 
-  mutate(across(
-    c(3:5, 18:32), ~.x/10000
-  ))
+df <- df %>% filter(type == 1)
 
 
 df_table <- tibble(
@@ -30,7 +27,7 @@ df_table <- tibble(
 row_add_function <- function(df, df_table, code_range, row_name) {
   df_row <- df %>% filter(
     economic_code %in% code_range & is.na(activity_code)) %>% 
-    select(c(3:5, 19:32)) %>% 
+    select(c(3:5, 19:38)) %>% 
     summarise(across(everything(), ~sum(.x, na.rm = TRUE)))
   
   
@@ -368,3 +365,5 @@ df_table <- bind_rows(df_table, new_row)
 #-----------------------------------------------------------------------
 
 saveRDS(df_table, here("data/final/op_analysis_table4.rds"))
+
+

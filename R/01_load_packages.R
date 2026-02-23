@@ -8,6 +8,7 @@ library(stringr)
 library(ggplot2)
 library(showtext)
 library(sysfonts)
+library(stringr)
 
 #----------------------------------------------
 #project data location
