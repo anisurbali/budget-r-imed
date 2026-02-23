@@ -5,10 +5,7 @@ df <- readRDS(here("data/final/budget_df.rds"))
 
 # keep operating data only
 
-df <- df %>% filter(type == 1) %>% 
-  mutate(across(
-    c(3:5, 18:32), ~.x/10000
-  ))
+df <- df %>% filter(type == 1)
 
 
 df_table <- tibble(
@@ -30,7 +27,7 @@ df_table <- tibble(
 row_add_function <- function(df, df_table, code_range, row_name) {
   df_row <- df %>% filter(
     economic_code %in% code_range & is.na(activity_code)) %>% 
-    select(c(3:5, 19:32)) %>% 
+    select(c(3:5, 19:38)) %>% 
     summarise(across(everything(), ~sum(.x, na.rm = TRUE)))
   
   
@@ -60,17 +57,6 @@ df_table <- row_add_function(
   row_name = "কর্মকর্তাদের বেতন"
 )
 
-
-
-#------------------------------------------------------------------
-
-## add rows officer salary
-df_table <- row_add_function(
-  df = df,
-  df_table = df_table,
-  code_range = c(3111101),
-  row_name = "কর্মকর্তাদের বেতন"
-)
 
 #------------------------------------------------------------------
 #------------------------------------------------------------------
@@ -104,16 +90,51 @@ df_table <- row_add_function(
 
 #------------------------------------------------------------------
 
-## add rows bhatadi
+
+#--------------------উপমোট বেতন ------------------------------
 
 df_table <- row_add_function(
   df = df,
   df_table = df_table,
-  code_range = c(3111301:3111352),
-  row_name = "ভাতাদি"
+  code_range = c(3111101:3111209),
+  row_name = "উপমোট"
 )
 #------------------------------------------------------------------
 
+df_table <- add_row(df_table, desc = "ভাতাদি")
+#------------------------------------------------------------------
+
+#------------------------শিক্ষা ভাতা------------------------------
+df_table <- row_add_function(
+  df = df,
+  df_table = df_table,
+  code_range = c(3111306),
+  row_name = "৩১১১৩০৬ - শিক্ষা ভাতা"
+)
+#------------------------------------------------------------------
+
+
+#------------------------বাড়ি ভাড়া ভাতা------------------------------
+df_table <- row_add_function(
+  df = df,
+  df_table = df_table,
+  code_range = c(3111306),
+  row_name = "৩১১১৩০৬ - বাড়ি ভাড়া ভাতা"
+)
+#------------------------------------------------------------------
+
+
+#------------------------চিকিৎসা ভাতা----------------------------
+df_table <- row_add_function(
+  df = df,
+  df_table = df_table,
+  code_range = c(3111311),
+  row_name = "৩১১১৩১১ - চিকিৎসা ভাতা"
+)
+#------------------------------------------------------------------
+
+
+#------------------------------------------------------------------
 ## add sub total row
 df_table <- row_add_function(
   df = df,
@@ -368,3 +389,5 @@ df_table <- bind_rows(df_table, new_row)
 #-----------------------------------------------------------------------
 
 saveRDS(df_table, here("data/final/op_analysis_table4.rds"))
+
+
