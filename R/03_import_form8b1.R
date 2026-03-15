@@ -6,7 +6,7 @@ library(here)
 source(here("R", "01_load_packages.R"))
 
 raw_data <- read_excel(
-  here(drive, "data/raw/bc1_form_8b2_development_detailsadp_e1y2dzkui.xls"),
+  here(drive, "data/raw/bc1_form_8b2_development_detailsadp_fxc6gce6x.xls"),
   sheet = 1)
 
 
@@ -39,12 +39,17 @@ raw_data <- raw_data %>%
       raw_data$code_name,
       NA
     ),
-    type = 2
+    type = 2,
+    
+    fund = ifelse(
+      substr(raw_data$economic_code, 1, 13)=="তহবিলের উৎস :",
+      substr(raw_data$economic_code, 14, 22), NA
+    )
   )
 
 ## fill down the institution code and name for all rows
 raw_data <- raw_data %>% 
-  fill(c(activity_code, activity_name), .direction = "down")
+  fill(c(activity_code, activity_name, fund), .direction = "down")
 
 
 ## keep only economic code rows

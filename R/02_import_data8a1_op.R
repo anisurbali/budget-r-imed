@@ -5,7 +5,7 @@ library(here)
 source(here("R", "01_load_packages.R"))
 
 raw_data <- read_excel(
-  here(drive, "data/raw/bc1_form_8a1_operating_expenditure_detailsfield_office_9sih21rs8.xls"),
+  here(drive, "data/raw/bc1_form_8a1_operating_expenditure_detailsfield_office_qd395macx.xls"),
   sheet = 1)
 
 
@@ -27,13 +27,13 @@ raw_data$budget25_26 <- NULL
 raw_data <- raw_data %>% 
   mutate(
     inst_code = ifelse(
-      substr(raw_data$economic_code, 1, 3) == "115",
+      substr(raw_data$economic_code, 1, 3) == "116",
       raw_data$economic_code,
       NA
     ),
     
     inst_name = ifelse(
-      substr(raw_data$economic_code, 1, 3) == "115",
+      substr(raw_data$economic_code, 1, 3) == "116",
       raw_data$code_name,
       NA
     ),
@@ -76,6 +76,7 @@ raw_data <- raw_data %>%
 
 raw_data <- raw_data %>% 
   filter(nchar(raw_data$economic_code)==7 & !startsWith(raw_data$economic_code, "116"))
+
 
 
 ## check if any value *failed to decode utf16*
