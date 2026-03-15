@@ -8,7 +8,7 @@ source(here("R", "01_load_packages.R"))
 
 
 
-raw_data <- read_excel(here(drive, "data/raw/expenditure_detail_26_27.xls"))
+raw_data <- read_excel(here(drive, "data/expenditure_detail_26_27.xls"))
 
 
 ## rename the columns
@@ -42,13 +42,13 @@ raw_data <- raw_data %>% mutate(
 raw_data <- raw_data %>% 
   mutate(
     inst_code = ifelse(
-      substr(raw_data$economic_code, 1, 3) == "116",
+      substr(raw_data$economic_code, 1, 3) == "114",
       raw_data$economic_code,
       NA
     ),
     
     inst_name = ifelse(
-      substr(raw_data$economic_code, 1, 3) == "116",
+      substr(raw_data$economic_code, 1, 3) == "114",
       raw_data$code_name,
       NA
     ),
@@ -85,7 +85,7 @@ raw_data <- raw_data %>%
 ## clean data by removing unncessary rows and commas
 
 raw_data <- raw_data %>% 
-  filter(nchar(raw_data$economic_code)==7 & !startsWith(raw_data$economic_code, "116"))
+  filter(nchar(raw_data$economic_code)==7 & !startsWith(raw_data$economic_code, "114"))
 
 
 ## check if any value *failed to decode utf16*
@@ -111,7 +111,7 @@ saveRDS(raw_data, here("data/processed/exp_5yr.rds"))
 #----------------------------------------------------------------------------
 
 
-raw_data <- read_excel(here(drive, "data/raw/expenditure_detail_24_25.xls"))
+raw_data <- read_excel(here(drive, "data/expenditure_detail_24_25.xls"))
 
 # keep data of 20-21 and 21-22
 
@@ -144,13 +144,13 @@ raw_data <- raw_data %>% mutate(
 raw_data <- raw_data %>% 
   mutate(
     inst_code = ifelse(
-      substr(raw_data$economic_code, 1, 3) == "116",
+      substr(raw_data$economic_code, 1, 3) == "114",
       raw_data$economic_code,
       NA
     ),
     
     inst_name = ifelse(
-      substr(raw_data$economic_code, 1, 3) == "116",
+      substr(raw_data$economic_code, 1, 3) == "114",
       raw_data$code_name,
       NA
     ),
@@ -186,7 +186,7 @@ raw_data <- raw_data %>%
 ## clean data by removing unncessary rows and commas
 
 raw_data <- raw_data %>% 
-  filter(nchar(raw_data$economic_code)==7 & !startsWith(raw_data$economic_code, "116"))
+  filter(nchar(raw_data$economic_code)==7 & !startsWith(raw_data$economic_code, "114"))
 
 
 ## check if any value *failed to decode utf16*

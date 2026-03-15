@@ -17,9 +17,10 @@ library(writexl)
 #project data location
 # ----------------------------------------------
 
-if (here() == "C:/Users/bmani/GitHub/budget-r-sid") {
-  drive <- "G:/My Drive/Finance Division/Tripartite Meeting/tripartite-r-project-sid/"
-  font_path <- "C:/Users/bmani/AppData/Local/Microsoft/Windows/Fonts/"
+if (here() == "C:/Users/bmani/GitHub/budget-r-imed") {
+  drive <- "C:/Users/bmani/OneDrive/Finance Division/tripartite_meeting26/115 IMED/"
+  # font_path <- "C:/Users/bmani/AppData/Local/Microsoft/Windows/Fonts/"
+  
 } else if ((here() == "C:/Users/Md. Mamunul Karim/Documents/GitHub/budget-r-sid")) {
   
   drive <- "G:/My Drive/Finance Division/Tripartite Meeting/tripartite-r-project-sid/"
