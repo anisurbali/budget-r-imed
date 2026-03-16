@@ -3,8 +3,8 @@ rm(list = ls())
 
 ## open the clean datasets
 
-op_def <- readRDS(here("data/final/operating_df.rds"))
-dev_df <- readRDS(here("data/final/development_df.rds"))
+# op_def <- readRDS(here("data/final/operating_df.rds"))
+# dev_df <- readRDS(here("data/final/development_df.rds"))
 
 budget_df <- readRDS(here("data/final/budget_df.rds"))
 
@@ -17,13 +17,13 @@ sum_df <- budget_df %>%
 # sum operating budget
 
 sum_op <- budget_df %>% 
-  filter(budget_type == "operating") %>% 
+  filter(type == 1) %>% 
   summarise(across(where(is.numeric), ~ sum(.x, na.rm = TRUE)/10000))
 
 ## sum development budget
 
 sum_dev <- budget_df %>% 
-  filter(budget_type == "development") %>% 
+  filter(type == 2) %>% 
   summarise(across(where(is.numeric), ~ sum(.x, na.rm = TRUE)/10000))
 
 
@@ -52,7 +52,7 @@ rate_change <- function(current, previous) {
 }
 
 ####################################################################
-##          পরিসংখ্যান ও তথ্য ব্যবস্থাপনা বিভাগের বাজেট সংক্রান্ত তথ্য
+##         IMED বিভাগের বাজেট সংক্রান্ত তথ্য
 ######################################################################
 
 
@@ -161,7 +161,7 @@ budget_glance <- bind_rows(budget_glance, custom_row)
 
 
 ##########################################################################
-## পরিসংখ্যান ও তথ্য ব্যবস্থাপনা বিভাগের বাজেট ও জিডিপি সংক্রান্ত তথ্য
+## IMEDস্থাপনা বিভাগের বাজেট ও জিডিপি সংক্রান্ত তথ্য
 #########################################################################
 
 

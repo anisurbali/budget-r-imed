@@ -58,7 +58,7 @@ row_add_function <- function(df, code_range, row_name = NULL) {
 
 #------------------- Add rows ---------------------------------------------
 #select the institution
-df1 <- df %>% filter( inst_code == "1160101103365" &
+df1 <- df %>% filter( inst_code == "1150101103364" &
   is.na(activity_code)
 )
 
@@ -66,7 +66,7 @@ df1 <- df %>% filter( inst_code == "1160101103365" &
 
 ### add all rows
 
-codes <- df %>% filter(inst_code == "1160101103365" & is.na(activity_code)) %>% 
+codes <- df %>% filter(inst_code == "1150101103364" & is.na(activity_code)) %>% 
   select(economic_code) 
 
 # 
@@ -75,7 +75,7 @@ codes <- df %>% filter(inst_code == "1160101103365" & is.na(activity_code)) %>%
 # ##      বিশেষ/সহায়তা কার্যক্রম 
 # #----------------------------------------------------------------------------
 # #select the institution
-# df1 <- df %>% filter( inst_code == "1160101" &
+# df1 <- df %>% filter( inst_code == "1150101" &
 #                         !is.na(activity_code)
 # )
 
@@ -99,7 +99,7 @@ codes <- df %>% filter(inst_code == "1160101103365" & is.na(activity_code)) %>%
 ##############################################################################
 
 #select the institution
-df1 <- df %>% filter( inst_code == "1160101103365" &
+df1 <- df %>% filter( inst_code == "1150101103364" &
                         is.na(activity_code)
 )
 
@@ -115,7 +115,7 @@ df_table <- bind_rows(df_table, rows_to_add)
 
 ## group of codes
 
-codes <- df %>% filter(inst_code == "1160101103365" & is.na(activity_code)) %>% 
+codes <- df %>% filter(inst_code == "1150101103364" & is.na(activity_code)) %>% 
   select(economic_code) 
 
 group_df <- read_excel(here(drive, "data/raw/econ_group.xlsx"))
@@ -199,7 +199,7 @@ for (row in results) {
 ########################################################################
 
 #select the institution
-df1 <- df %>% filter( inst_code == "1160201103366")
+df1 <- df %>% filter( inst_code == "1150101103364")
 
 
 
@@ -213,7 +213,7 @@ df_table <- bind_rows(df_table, rows_to_add)
 
 ## group of codes
 
-codes <- df %>% filter(inst_code == "1160201103366" ) %>% 
+codes <- df %>% filter(inst_code == "1150101103364" ) %>% 
   select(economic_code) 
 
 group_df <- read_excel(here(drive, "data/raw/econ_group.xlsx"))
