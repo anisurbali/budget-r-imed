@@ -32,6 +32,30 @@ df_table <- tibble(
 
 df_table <- budget %>% filter(type == 1)
 
+## sum rows for budget assistance to BPPA
+
+bppa_total <- df_table %>% 
+  filter(activity_code == "131021401") %>% 
+  summarise(across(where(is.numeric), ~sum(.x, na.rm = TRUE)),
+            across(!where(is.numeric), ~ NA))
+
+
+bppa_total$code_name <- "বাজেট সহায়তা"
+
+df_table <- df_table %>% 
+  filter(inst_code == "1150101103364" & is.na(activity_code))
+
+df_table <- bind_rows(df_table, bppa_total)
+
+df <-df_table %>% mutate(
+  desc = paste(economic_code, "-", code_name),
+  additional = budget26_27 - corrected25_26,
+  percent_increase = (budget26_27/corrected25_26-1)*100,
+  comment = ""
+) %>% select(c(desc, budget25_26, corrected25_26, budget26_27, additional,
+               percent_increase, fd_advice, comment))
+
+
 
 
 ```
