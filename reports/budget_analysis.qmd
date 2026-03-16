@@ -1,0 +1,38 @@
+---
+title: "budget_analysis"
+format:
+  docx:
+    reference-doc: reference.docx
+---
+
+**বাস্তবায়ন পরিবীক্ষণ ও মূল্যায়নগের পরিচালন ব্যয় বরাদ্দ বিশ্লেষণ**
+
+```{r}
+
+library(here)
+library(writexl)
+library(tibble)
+library(dplyr)
+library(tidyverse)
+
+budget <- readRDS(here("data/final/budget_df.rds"))
+
+# write_xlsx(budget, paste0(drive, "data/budget_inputxxxx.xlsx"))
+fd <- readxl::read_xlsx(paste0(drive, "data/budget_input.xlsx"))
+budget$fd_advice = fd$fd_advice
+
+## generate a table for the operating budget analysis
+
+df_table <- tibble(
+  desc = character(),
+  budget25_26 = numeric(),
+  corrected25_26 = numeric(),
+  budget26_27 = numeric(),
+)
+
+df_table <- budget %>% filter(type == 1)
+
+
+
+```
+
