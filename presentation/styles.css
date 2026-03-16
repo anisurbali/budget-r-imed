@@ -1,0 +1,131 @@
+.reveal {
+  font-family: "NikoshBAN", sans-serif;
+}
+
+.reveal section {
+  font-size: 30px;
+}
+
+.reveal h1,
+.reveal h2 {
+  font-family: "NikoshBAN", sans-serif;
+  margin: 0;
+}
+
+.reveal h1 {
+  color: #0A8C8A;
+}
+
+.reveal h2 {
+  color: #0A4C8A;
+}
+
+.reveal .progress span {
+  background: #0A4C8A;
+}
+
+.reveal .controls {
+  color: #0A4C8A;
+}
+
+.reveal .slides section.title-slide {
+  padding: 10px 20px;
+}
+
+.reveal .slides section.title-slide .columns {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  min-height: 80vh;
+  gap: 1.rem;
+}
+
+.reveal .slides section.title-slide .column {
+  display: flex;
+}
+
+.photo-col {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.content-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.title-col{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.dept {
+  display: flex;
+  justify-content: center;
+  margin-top: 0.1rem;
+  font-size: 4rem;
+  font-weight: bold;
+  color: #3A8B95;
+}
+
+
+
+.main-title {
+  margin-top: 1.25rem;
+  font-size: 1.35em;
+  line-height: 1.4;
+  font-weight: 700;
+  text-align: center;
+  color: #1f1f1f;
+}
+
+.subtitle {
+  margin-top: 1rem;
+}
+
+.slide-title {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #263B6A;
+  
+  background-color: #e8eef9;
+  padding: 1px 10px;
+  margin: 10px 10px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.slide-content{
+  font-size: 3rem;
+  font-weight: bold;
+  color: #263B6A;
+  
+  background-color: #e8eef9;
+  padding: 30px 10px;
+  margin: 100px 10px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.fin-div {
+  margin-top: 1.25rem;
+  text-align: center;
+  font-size: 1.4em;
+  font-weight: bold;
+  line-height: 1.6;
+  color: black;
+}
+
+.reveal .mermaid svg {
+  max-width: 100%;
+  height: auto;
+  font-size: 5rem;
+}
+
+:root {
+  --mermaid-font-family: "NikoshBAN", "SolaimanLipi", "Kalpurush", sans-serif;
+}
