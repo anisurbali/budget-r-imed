@@ -1,0 +1,367 @@
+---
+title: "Budget Report 2025-26"
+author: "Ministry Name"
+date: "`r Sys.Date()`"
+output:
+  word_document
+    
+---
+```{r load_libraries, echo=FALSE}
+
+library(here)
+library(flextable)
+library(dplyr)
+library(systemfonts)
+library(officer)
+```
+
+
+
+```{r table3}
+
+set_flextable_defaults(font.family = "NikoshBAN")
+
+df <- readRDS(here("data/final/table3.rds"))
+
+df$ratio_exp <- df$ratio_exp*100
+
+# add an average row below
+
+df <- df %>%
+  add_row(
+    year = "গত ৫ বছরের গড় সক্ষমতা",
+    budget = NA,
+    corrected = NA,
+    actual = NA,
+    ratio_exp = mean(df$ratio_exp, na.rm = TRUE)
+  )
+
+ft <- flextable(df)
+
+
+# add header row
+
+ft <- delete_part(x = ft, part = "header")
+
+
+ft <- add_header_row(
+  ft,
+  values = c("অর্থ বছর",
+             "মূল বাজেট বরাদ্দ",
+             "সংশোধিত বাজেট বরাদ্দ",
+             "প্রকৃত ব্যয়",
+             "ব্যয়ের শতকরা হার (%) (সংশোধিত বরাদ্দ)"
+            ),
+  colwidths = rep(1, 5))
+
+ft <- add_header_row(
+  ft,
+  values = c("পরিচালন"
+             ),
+  colwidths = c(5))
+
+
+
+
+ft <- font(
+  ft,
+  fontname = "NikoshBAN",
+  part = "header"
+)
+
+ft <- font(
+  ft,
+  fontname = "NikoshBAN",
+  part = "body"
+)
+
+
+
+ft <- colformat_double(
+  x = ft,
+   j = 2:4,
+  digits = 2,
+  big.mark = "," # Optional: adds a comma for thousands separator
+)
+
+ft <- colformat_double(
+  ft,
+  j = 5,
+  digits = 2,
+  big.mark = ",",
+  suffix = "%"
+)
+
+ft
+
+
+
+```
+
+
+
+```{r table4}
+
+set_flextable_defaults(font.family = "NikoshBAN")
+
+df <- readRDS(here("data/final/table4.rds"))
+
+df$ratio_budget <- df$ratio_budget*100
+df$ratio_corrected <- df$ratio_corrected*100
+
+
+# add an average row below
+
+df <- df %>%
+  add_row(
+    year = "গত ৫ বছরের গড় সক্ষমতা",
+    budget = NA,
+    corrected = NA,
+    actual = NA,
+    ratio_budget = mean(df$ratio_budget, na.rm = TRUE),
+    ratio_corrected = mean(df$ratio_corrected, na.rm = TRUE)
+  )
+
+ft <- flextable(df)
+
+
+# add header row
+
+ft <- delete_part(x = ft, part = "header")
+
+
+ft <- add_header_row(
+  ft,
+  values = c("অর্থ বছর",
+             "মূল বাজেট বরাদ্দ",
+             "সংশোধিত বাজেট বরাদ্দ",
+             "প্রকৃত ব্যয়",
+             "ব্যয়ের শতকরা হার (%) (বাজেট)",
+             "ব্যয়ের শতকরা হার (%) (সংশোধিত বরাদ্দ)"
+            ),
+  colwidths = rep(1, 6))
+
+ft <- add_header_row(
+  ft,
+  values = c("বিভাগের বাজেট"
+             ),
+  colwidths = c(6))
+
+
+
+
+ft <- font(
+  ft,
+  fontname = "NikoshBAN",
+  part = "header"
+)
+
+ft <- font(
+  ft,
+  fontname = "NikoshBAN",
+  part = "body"
+)
+
+
+
+ft <- colformat_double(
+  x = ft,
+   j = 2:4,
+  digits = 2,
+  big.mark = "," # Optional: adds a comma for thousands separator
+)
+
+ft <- colformat_double(
+  ft,
+  j = 5:6,
+  digits = 2,
+  big.mark = ",",
+  suffix = "%"
+)
+
+ft
+
+
+
+
+```
+
+
+
+
+```{r table5}
+
+set_flextable_defaults(font.family = "NikoshBAN")
+
+df <- readRDS(here("data/final/op_analysis_table4.rds"))
+
+
+ft <- flextable(df)
+
+# add header row
+
+ft <- delete_part(x = ft, part = "header")
+
+ft <- add_header_row(
+  ft,
+  values = as.character(1:8))
+
+
+ft <- add_header_row(
+  ft,
+  values = c("বিবরণ",
+             "বাজেট",
+             "সংশোধিত",
+             "বিভাগের প্রস্তাবিত ২০২6-27 প্রাক্কলন",
+             "সংশোধিত বাজেটের তুলনায় অতিরিক্ত প্রস্তাব",
+             "বৃদ্ধি (%) সংশোধিতের তুলনায়",
+             "অর্থ বিভাগের সুপারিশ",
+             "অর্থ বিভাগের সুপারিশকৃত প্রবৃদ্ধির হার"
+             ))
+
+ft <- add_header_row(
+  ft,
+  values = c("",
+             "২০২৫-২৬",
+             "", "", "", "",  ""
+             ),
+  colwidths = c(1, 2,1,1,1,1,1))
+
+
+merge_header <- function(ft, col) {
+  ft |>
+     compose(i = 1, j = col, part = "header",
+          value = as_paragraph(ft$header$dataset[2, col])) |>
+    merge_at( i =1:2, j = col, part = "header")
+}
+
+
+ft <- merge_header(ft, 1)
+
+ft <- merge_header(ft, 4)
+
+ft <- merge_header(ft, 5)
+
+ft <- merge_header(ft, 6)
+
+ft <- merge_header(ft, 7)
+
+ft <- merge_header(ft, 8)
+
+
+ft <- font(
+  ft,
+  fontname = "NikoshBAN",
+  part = "header"
+)
+
+ft <- font(
+  ft,
+  fontname = "NikoshBAN",
+  part = "body"
+)
+
+ft <- colformat_double(
+  x = ft,
+  j = -6,
+  digits = 2,
+  big.mark = "," # Optional: adds a comma for thousands separator
+)
+
+ft <- colformat_double(
+  ft,
+  j = 6,
+  digits = 2,
+  big.mark = ",",
+  suffix = "%"
+)
+
+ft <- width(ft, j = 1, width = 1.6, unit = "in") # Sets the first column to 2 inches wide
+
+# Apply bold formatting to the header
+ft <- bold(ft, bold = TRUE, part = "header")
+
+
+
+
+ft
+
+
+```
+
+
+```{r table6}
+
+set_flextable_defaults(font.family = "NikoshBAN")
+
+df <- readRDS(here("data/final/table6.rds"))
+df$ratio_exp <- df$ratio_exp*100
+
+
+# add an average row below
+
+df <- df %>%
+  add_row(
+    year = "গত ৫ বছরের গড় সক্ষমতা",
+    budget = NA,
+    corrected = NA,
+    actual = NA,
+    ratio_exp = mean(df$ratio_exp, na.rm = TRUE)
+  )
+
+ft <- flextable(df)
+
+
+# add header row
+
+ft <- delete_part(x = ft, part = "header")
+
+
+ft <- add_header_row(
+  ft,
+  values = c("অর্থ বছর",
+             "মূল বাজেট বরাদ্দ",
+             "সংশোধিত বাজেট বরাদ্দ",
+             "প্রকৃত ব্যয়",
+             "ব্যয়ের শতকরা হার (%) (সংশোধিত বরাদ্দ)"
+            ))
+
+ft <- add_header_row(
+  ft,
+  values = c("উন্নয়ন"
+             ),
+  colwidths = c(5))
+
+
+ft <- colformat_double(
+  x = ft,
+  j = -5,
+  digits = 2,
+  big.mark = "," # Optional: adds a comma for thousands separator
+)
+
+ft <- colformat_double(
+  ft,
+  j = 5,
+  digits = 2,
+  big.mark = ",",
+  suffix = "%"
+)
+
+ft <- font(
+  ft,
+  fontname = "NikoshBAN",
+  part = "header"
+)
+
+ft <- font(
+  ft,
+  fontname = "NikoshBAN",
+  part = "body"
+)
+
+ft
+
+
+```
+
