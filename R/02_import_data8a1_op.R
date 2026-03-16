@@ -5,7 +5,7 @@ library(here)
 source(here("R", "01_load_packages.R"))
 
 raw_data <- read_excel(
-  here(drive, "data/bc1_form_8a1_operating_expenditure_detailsfield_office_b5sf750w2.xls"),
+  here(drive, "data/bc1_form_8a1_operating_expenditure_detailsfield_office_ijnr2i49s.xls"),
   sheet = 1)
 
 
@@ -27,13 +27,13 @@ raw_data$budget25_26 <- NULL
 raw_data <- raw_data %>% 
   mutate(
     inst_code = ifelse(
-      substr(raw_data$economic_code, 1, 3) == "116",
+      substr(raw_data$economic_code, 1, 3) == "115",
       raw_data$economic_code,
       NA
     ),
     
     inst_name = ifelse(
-      substr(raw_data$economic_code, 1, 3) == "116",
+      substr(raw_data$economic_code, 1, 3) == "115",
       raw_data$code_name,
       NA
     ),
@@ -75,7 +75,7 @@ raw_data <- raw_data %>%
 ## clean data by removing unncessary rows and commas
 
 raw_data <- raw_data %>% 
-  filter(nchar(raw_data$economic_code)==7 & !startsWith(raw_data$economic_code, "116"))
+  filter(nchar(raw_data$economic_code)==7 & !startsWith(raw_data$economic_code, "115"))
 
 
 

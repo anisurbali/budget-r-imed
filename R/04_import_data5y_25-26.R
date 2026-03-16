@@ -42,13 +42,13 @@ raw_data <- raw_data %>% mutate(
 raw_data <- raw_data %>% 
   mutate(
     inst_code = ifelse(
-      substr(raw_data$economic_code, 1, 3) == "114",
+      substr(raw_data$economic_code, 1, 3) == "115",
       raw_data$economic_code,
       NA
     ),
     
     inst_name = ifelse(
-      substr(raw_data$economic_code, 1, 3) == "114",
+      substr(raw_data$economic_code, 1, 3) == "115",
       raw_data$code_name,
       NA
     ),
@@ -85,7 +85,7 @@ raw_data <- raw_data %>%
 ## clean data by removing unncessary rows and commas
 
 raw_data <- raw_data %>% 
-  filter(nchar(raw_data$economic_code)==7 & !startsWith(raw_data$economic_code, "114"))
+  filter(nchar(raw_data$economic_code)==7 & !startsWith(raw_data$economic_code, "115"))
 
 
 ## check if any value *failed to decode utf16*
@@ -144,13 +144,13 @@ raw_data <- raw_data %>% mutate(
 raw_data <- raw_data %>% 
   mutate(
     inst_code = ifelse(
-      substr(raw_data$economic_code, 1, 3) == "114",
+      substr(raw_data$economic_code, 1, 3) == "115",
       raw_data$economic_code,
       NA
     ),
     
     inst_name = ifelse(
-      substr(raw_data$economic_code, 1, 3) == "114",
+      substr(raw_data$economic_code, 1, 3) == "115",
       raw_data$code_name,
       NA
     ),
@@ -186,7 +186,7 @@ raw_data <- raw_data %>%
 ## clean data by removing unncessary rows and commas
 
 raw_data <- raw_data %>% 
-  filter(nchar(raw_data$economic_code)==7 & !startsWith(raw_data$economic_code, "114"))
+  filter(nchar(raw_data$economic_code)==7 & !startsWith(raw_data$economic_code, "115"))
 
 
 ## check if any value *failed to decode utf16*

@@ -118,10 +118,10 @@ row_graph <- function(df, econcode, inst_value, path) {
   
 }
 
-inst_value <- "1160101103365"
+inst_value <- "1150101103364"
 store_path <- "output/code_graphs/secretariat/"
 
-all_codes <- df %>% filter(inst_code == "1160101103365" & is.na(activity_code) &
+all_codes <- df %>% filter(inst_code == inst_value & is.na(activity_code) &
                              budget26_27 != 0 &
                              !is.na(budget26_27)) %>% 
   select(economic_code) %>% pull()
