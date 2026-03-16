@@ -23,14 +23,14 @@ exp_df <- df %>%
 ## make a table
 
 dev_table <- tibble(
-  year = c("2020-21", "2021-22", "2022-23", "2023-24", "2024-25", "2025-26"),
-  budget = c(exp_df$budget20_21, exp_df$`budget21-22`, exp_df$budget22_23,
-             exp_df$budget23_24, exp_df$budget24_25, exp_df$budget25_26),
-  corrected = c(exp_df$`corrected20-21`, exp_df$corrected21_22, 
+  year = c("2020-21", "2021_22", "2022-23", "2023-24", "2024-25"),
+  budget = c(exp_df$budget20_21, exp_df$budget21_22, exp_df$budget22_23,
+             exp_df$budget23_24, exp_df$budget24_25),
+  corrected = c(exp_df$corrected20_21, exp_df$corrected21_22, 
                 exp_df$corrected22_23, exp_df$corrected23_24,
-                exp_df$corrected24_25, exp_df$corrected25_26),
-  actual = c(exp_df$actual20_21, exp_df$`actual21-22`, exp_df$actual22_23, 
-             exp_df$actual23_24, exp_df$actual24_25, exp_df$actual25_26)
+                exp_df$corrected24_25),
+  actual = c(exp_df$actual20_21, exp_df$actual21_22, exp_df$actual22_23, 
+             exp_df$actual23_24, exp_df$actual24_25)
 )
 
 

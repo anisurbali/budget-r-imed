@@ -59,24 +59,25 @@ plot_df <- plot_df %>%
 #                 1-5 years budget graph Graph 1
 #-------------------------------------------------------------------------------
 
-
+agg_png("output/figures/1_5yrs.png", width = 12,
+        height = 8, units = "in", res = 300)
 
 ## color code
 
-op_color <- "#9CCFFF"
-dev_color <-  "#FFA6A6"
-total_color <- "#D8E983"
+op_color <- "#F7B980"
+dev_color <-  "#66D0BC"
+total_color <- "#7AAACE"
 
 #font_add("bangla_font", "C:/Users/Md. Mamunul Karim/AppData/Local/Microsoft/Windows/Fonts/NikoshBAN.ttf")
 
-font_add("bangla_font", here(font_path, "NikoshBAN.ttf"))
-
-showtext_auto()
+# font_add("bangla_font", here(font_path, "NikoshBAN.ttf"))
+# 
+showtext_auto(FALSE)
 
 p <- ggplot(plot_df,
        aes(x = year, y = Amount, fill = type)) +
   
-  geom_col(position = position_dodge(width = 0.75),
+  geom_col(position = position_dodge(width = 0.8),
            width = 0.7,
            color = "white") +
   
@@ -84,46 +85,59 @@ p <- ggplot(plot_df,
     "Operating" = op_color,       # green
     "Development" = dev_color,      # orange
     "Total" = total_color     # dark blue
+  ),
+  
+  labels = c(
+    "Operating" = "পরিচালন",
+    "Development" = "উন্নয়ন",
+    "Total" = "মোট"
   )) +
   
   labs(
     title = "",
     subtitle = "",
     x = NULL,
-    y = "Taka (Crore)",
+    y = "টাকা (কোটি)",
     fill = NULL
   ) +
+  scale_x_discrete(labels = c(
+    "actual23_24" = "2023-24 \n প্রকৃত",
+    "actual24_25" = "2024-25 \n প্রকৃত",
+    "budget25_26" = "2025-26 \n বাজেট",
+    "corrected25_26" = "2025-26 \n সংশোধিত বাজেট ",
+    "budget26_27" = "2026-27  \n প্রক্ষেপন",
+    "budget27_28" = "2027-28 \n প্রাক্কলন",
+    "budget28_29" = "2028-29 \n প্রক্ষেপন"
+  ))+
   
-  theme_minimal(base_family = "bangla_font", base_size = 24) +
+  theme_minimal(base_family = "NikoshBAN", base_size = 24) +
   
   theme(
     legend.position = "bottom",
     legend.box = "horizontal",
-    legend.text = element_text(size = 35),
+    legend.text = element_text(size = 25),
     legend.title = element_blank(),
+    legend.key.size = unit(1.4, "cm"),
     plot.title = element_text(face = "bold", size = 20),
     plot.subtitle = element_text(size = 20),
     panel.grid.major.x = element_blank(),
     panel.grid.minor = element_blank(),
-    axis.text.x = element_text(face = "bold", size = 50, colour = "black")
+    panel.grid.major.y = element_line(color = "#E6E6E6", linewidth = 0.8),
+    axis.text.x = element_text(family = "NikoshBAN", size = 15, colour = "black")
     ) +
-  scale_x_discrete(labels = c(
-    "actual23_24" = "2023-24",
-    "actual24_25" = "2024-25",
-    "budget25_26" = "2025-26",
-    "budget26_27" = "2026-27",
-    "budget27_28" = "2027-28",
-    "budget28_29" = "2028-29",
-    "corrected25_26" = "2025-26"
-  ))+
+ 
   geom_text(aes(label = sprintf("%.2f", Amount)),
             position = position_dodge(width = 0.75),
-            family = "bangla_font", size = 14, color = "black",
-            vjust = -0.2)
+            family = "NikoshBAN", size = 5, color = "black",
+            vjust = -.1,
+            angle = 0)
             
 
-p
-  ggsave(here("output/figures/1_5yrs.png"), plot = p, width = 12, height = 6, units = "in", dpi = "print")
+print(p)
+dev.off()
+
+
+  # ggsave(here("output/figures/1_5yrs.png"), plot = p, width = 12, height = 6, units = "in", dpi = "print")
 
 
 #-------------------------------------------------------------------------------  
@@ -142,6 +156,10 @@ plot_ratio <- plot_df %>%
     type = factor(type, levels = c("Development", "Operating"))
   )
 
+
+agg_png("output/figures/2_ratio.png", width = 12,
+        height = 6, units = "in", res = 300)
+
 p <- ggplot(plot_ratio,
        aes(x = year, y = ratio, fill = type))+
   geom_col(position = "fill")+
@@ -149,50 +167,239 @@ p <- ggplot(plot_ratio,
   
   scale_fill_manual(values = c(
     "Operating" = op_color,       # green
-    "Development" = dev_color))+
+    "Development" = dev_color),
+    labels = c(
+      "Operating" = "পরিচালন",
+      "Development" = "উন্নয়ন"
+    ))+
 
   
   scale_x_discrete(labels = c(
-    "actual23_24" = "2023-24",
-    "actual24_25" = "2024-25",
-    "budget25_26" = "2025-26",
-    "budget26_27" = "2026-27",
-    "budget27_28" = "2027-28",
-    "budget28_29" = "2028-29",
-    "corrected25_26" = "2025-26"
+    "actual23_24" = "2023-24 \n প্রকৃত",
+    "actual24_25" = "2024-25 \n প্রকৃত",
+    "budget25_26" = "2025-26 \n বাজেট",
+    "corrected25_26" = "2025-26 \n সংশোধিত বাজেট ",
+    "budget26_27" = "2026-27  \n প্রক্ষেপন",
+    "budget27_28" = "2027-28 \n প্রাক্কলন",
+    "budget28_29" = "2028-29 \n প্রক্ষেপন"
   ))+
   
-  theme_minimal(base_family = "bangla_font", base_size = 24) +
+  theme_minimal(base_family = "NikoshBAN", base_size = 20) +
   
   theme(
     legend.position = "bottom",
     legend.box = "horizontal",
-    legend.text = element_text(size = 50),
+    legend.text = element_text(size = 18),
     legend.title = element_blank(),
     panel.grid.major.x = element_blank(),
     panel.grid.minor = element_blank(),
-    axis.text.x = element_text(size = 50,
-                               family = "bangla_font", face = "bold",
+    axis.text.x = element_text(size = 18,
+                               family = "NikoshBAN",
                                color = "black"))+
   
   labs(
     x = NULL,
-    y = "Ratio")+
+    y = "শতকরা হার")+
  
   geom_text(aes(label = sprintf("%.2f%%", ratio*100)),
-            family = "bangla_font", size = 20,
+            family = "NikoshBAN", size = 8,
             position = position_stack(vjust = 0.5))
 
 
-p
+print(p)
+dev.off()
 
-ggsave(here("output/figures/2_ratio.png"), plot = p, width = 12, height = 6, units = "in", dpi = "print")
 
 
 #-------------------------------------------------------------------------------
 
 ################################################################################
-##            five years budget expenditure capacity
+##            five years total budget expenditure capacity
+#################################################################################
+
+#-------------------------------------------------------------------------------
+
+
+
+
+exp_df <- df %>% 
+  select(c(19:38)) %>% 
+  summarise(across(everything(), ~sum(.x, na.rm = TRUE)))
+
+## make a table
+
+budget_table <- tibble(
+  year = c("2020-21", "2021-22", "2022-23", "2023-24", "2024-25"),
+  budget = c(exp_df$budget20_21, exp_df$budget21_22, exp_df$budget22_23,
+             exp_df$budget23_24, exp_df$budget24_25),
+  corrected = c(exp_df$corrected20_21, exp_df$corrected21_22, 
+                exp_df$corrected22_23, exp_df$corrected23_24,
+                exp_df$corrected24_25),
+  actual = c(exp_df$actual20_21, exp_df$actual21_22, exp_df$actual22_23, 
+             exp_df$actual23_24, exp_df$actual24_25)
+)
+
+
+
+budget_table$ratio_budget <- budget_table$actual/budget_table$budget
+
+
+budget_table$ratio_corrected <- budget_table$actual/budget_table$corrected
+
+
+saveRDS(budget_table, here("data/final/table4.rds"))
+
+
+## ------------------------------------------------------------------------------
+
+
+##############################################################
+## transform to long format
+df_long <- budget_table %>%
+  pivot_longer(cols = c(2:6),
+               names_to = "type",
+               values_to = "value")
+
+
+# Scaling factor for secondary axis
+scale_factor <- max(df_long$value[df_long$type != "ratio_corrected"], na.rm = TRUE) /
+  max(df_long$value[df_long$type == "ratio_corrected"], na.rm = TRUE)
+
+# Split data
+bar_df  <- df_long %>% filter(type %in% c("budget","actual","corrected"))
+line_df <- df_long %>% filter(type == "ratio_corrected")
+
+
+bar_df <- bar_df %>% 
+  mutate(
+    type = factor(type, levels = c("budget", "corrected", "actual"))
+  )
+
+
+
+
+showtext_auto(FALSE)
+
+agg_png("output/figures/03_totalbudget5yr.png", width = 12,
+        height = 6.5, units = "in", res = 300)
+
+
+p <- ggplot() +
+  
+  # ---------------- Bars ----------------
+geom_col(
+  data = bar_df,
+  aes(x = year, y = value, fill = type),
+  position = position_dodge(width = 0.7),
+  width = 0.6
+) +
+  
+  # Bar labels
+  geom_text(
+    data = bar_df,
+    aes(x = year, y = value, label = round(value,2), group = type),
+    position = position_dodge(width = 0.7),
+    hjust = 1.1,
+    size = 5.5,
+    angle = 90
+  ) +
+  
+  # ---------------- Line ----------------
+geom_line(
+  data = line_df,
+  aes(x = year, 
+      y = value * scale_factor, 
+      color = type,
+      group = 1),
+  linewidth = 1.2
+) +
+  
+  geom_point(
+    data = line_df,
+    aes(x = year, 
+        y = value * scale_factor, 
+        color = type),
+    size = 2.5
+  ) +
+  
+  # Line labels
+  geom_text(
+    data = line_df,
+    aes(x = year, 
+        y = value * scale_factor, 
+        label = sprintf("%.2f%%", value*100)),
+    vjust = -0.1,
+    color = "black",
+    size = 5.5
+  ) +
+  
+  # ---------------- Dual Axis ----------------
+scale_y_continuous(
+  name = "টাকা (কোটি)",
+  sec.axis = sec_axis(~ . / scale_factor *100,
+                      name = "শতকরা হার (%)")
+) +
+  
+  # ---------------- Colors ----------------
+scale_fill_manual(values = c(
+  "budget"    = "#3A9AFF",
+  "actual"    = "#BCD9A2",
+  "corrected" = "#FB9B8F"
+),
+labels = c(
+  "budget"    = "বাজেট",
+  "actual"    = "প্রকৃত",
+  "corrected" = "সংশোধিত বাজেট"
+)
+) +
+  
+  scale_color_manual(values = c(
+    "ratio_corrected" = "#3D45AA"),
+    labels = c("ratio_corrected" = "প্রকৃত ব্যয় এর হার \n (সংশোধিতের তুলনায়)")
+  ) +
+  
+  # Merge legends
+  labs(fill = "", color = "") +
+  
+  theme_minimal(base_size = 12, base_family = "NikoshBAN") +
+  
+  # ---------------- Legend at Bottom ----------------
+theme(
+  legend.position = "bottom",
+  legend.direction = "horizontal",
+  legend.box = "horizontal",
+  legend.text = element_text(size = 14),
+  axis.text = element_text(size = 14,
+                           color = "black"),
+  axis.title.x = element_blank(),
+  axis.title.y = element_text(size = 14)
+) +
+  
+  guides(
+    fill  = guide_legend(nrow = 1),
+    color = guide_legend(nrow = 1)
+  )
+
+print(p)
+
+dev.off()
+
+
+
+
+
+
+
+
+
+
+
+
+
+#-------------------------------------------------------------------------------
+
+################################################################################
+##            five years operating budget expenditure capacity
 #################################################################################
 
 #-------------------------------------------------------------------------------
@@ -206,14 +413,14 @@ exp_df <- df %>%
 ## make a table
 
 op_table <- tibble(
-  year = c("2020-21", "2021-22", "2022-23", "2023-24", "2024-25", "2025-26"),
-  budget = c(exp_df$budget20_21, exp_df$`budget21-22`, exp_df$budget22_23,
-             exp_df$budget23_24, exp_df$budget24_25, exp_df$budget25_26),
-  corrected = c(exp_df$`corrected20-21`, exp_df$corrected21_22, 
+  year = c("2020-21", "2021-22", "2022-23", "2023-24", "2024-25"),
+  budget = c(exp_df$budget20_21, exp_df$budget21_22, exp_df$budget22_23,
+             exp_df$budget23_24, exp_df$budget24_25),
+  corrected = c(exp_df$corrected20_21, exp_df$corrected21_22, 
                 exp_df$corrected22_23, exp_df$corrected23_24,
-                exp_df$corrected24_25, exp_df$corrected25_26),
-  actual = c(exp_df$actual20_21, exp_df$`actual21-22`, exp_df$actual22_23, 
-             exp_df$actual23_24, exp_df$actual24_25, exp_df$actual25_26)
+                exp_df$corrected24_25),
+  actual = c(exp_df$actual20_21, exp_df$actual21_22, exp_df$actual22_23, 
+             exp_df$actual23_24, exp_df$actual24_25)
 )
 
 
@@ -248,6 +455,15 @@ bar_df <- bar_df %>%
     type = factor(type, levels = c("budget", "corrected", "actual"))
   )
 
+
+
+
+showtext_auto(FALSE)
+
+agg_png("output/figures/03_opexp.png", width = 12,
+        height = 6.5, units = "in", res = 300)
+
+
 p <- ggplot() +
   
   # ---------------- Bars ----------------
@@ -264,7 +480,7 @@ geom_col(
     aes(x = year, y = value, label = round(value,2), group = type),
     position = position_dodge(width = 0.7),
     hjust = 1.5,
-    size = 20,
+    size = 7,
     angle = 90
   ) +
   
@@ -294,14 +510,14 @@ geom_line(
         label = sprintf("%.2f%%", value*100)),
     vjust = -0.1,
     color = "black",
-    size = 20
+    size = 7
   ) +
   
   # ---------------- Dual Axis ----------------
 scale_y_continuous(
-  name = "Amount",
-  sec.axis = sec_axis(~ . / scale_factor,
-                      name = "Ratio (%)")
+  name = "টাকা (কোটি)",
+  sec.axis = sec_axis(~ . / scale_factor *100,
+                      name = "শতকরা হার (%)")
 ) +
   
   # ---------------- Colors ----------------
@@ -311,32 +527,32 @@ scale_fill_manual(values = c(
   "corrected" = "#FB9B8F"
   ),
 labels = c(
-  "budget"    = "Budget",
-  "actual"    = "Actual",
-  "corrected" = "Revised"
+  "budget"    = "বাজেট",
+  "actual"    = "প্রকৃত",
+  "corrected" = "সংশোধিত বাজেট"
   )
 ) +
   
   scale_color_manual(values = c(
     "ratio_exp" = "#3D45AA"),
-    labels = c("ratio_exp" = "Ratio of Actual to Revised")
+    labels = c("ratio_exp" = "প্রকৃত এর হার (সংশোধিতের তুলনায়)")
   ) +
   
   # Merge legends
   labs(fill = "", color = "") +
   
-  theme_minimal(base_size = 20, base_family = "bangla_font") +
+  theme_minimal(base_size = 12, base_family = "NikoshBAN") +
   
   # ---------------- Legend at Bottom ----------------
 theme(
   legend.position = "bottom",
   legend.direction = "horizontal",
   legend.box = "horizontal",
-  legend.text = element_text(size = 40),
-  axis.text = element_text(size = 40,
+  legend.text = element_text(size = 14),
+  axis.text = element_text(size = 14,
                              color = "black"),
   axis.title.x = element_blank(),
-  axis.title.y = element_text(size = 30)
+  axis.title.y = element_text(size = 14)
 ) +
   
   guides(
@@ -344,6 +560,192 @@ theme(
     color = guide_legend(nrow = 1)
   )
 
-p
+print(p)
 
-ggsave("output/figures/03_opexp.png", plot = p, width = 12, height = 6, units = "in", dpi = "print")
+dev.off()
+
+
+
+
+
+
+
+
+
+
+#-------------------------------------------------------------------------------
+
+################################################################################
+##            five years Development budget expenditure capacity
+#################################################################################
+
+#-------------------------------------------------------------------------------
+
+
+exp_df <- df %>% 
+  filter(type == 2) %>% 
+  select(c(19:38)) %>% 
+  summarise(across(everything(), ~sum(.x, na.rm = TRUE)))
+
+## make a table
+
+dev_table <- tibble(
+  year = c("2020-21", "2021-22", "2022-23", "2023-24", "2024-25"),
+  budget = c(exp_df$budget20_21, exp_df$budget21_22, exp_df$budget22_23,
+             exp_df$budget23_24, exp_df$budget24_25),
+  corrected = c(exp_df$corrected20_21, exp_df$corrected21_22, 
+                exp_df$corrected22_23, exp_df$corrected23_24,
+                exp_df$corrected24_25),
+  actual = c(exp_df$actual20_21, exp_df$actual21_22, exp_df$actual22_23, 
+             exp_df$actual23_24, exp_df$actual24_25)
+)
+
+
+
+dev_table$ratio_exp <- dev_table$actual/dev_table$corrected
+
+saveRDS(dev_table, here("data/final/table6.rds"))
+
+
+## ------------------------------------------------------------------------------
+
+
+##############################################################
+## transform to long format
+df_long <- dev_table %>%
+  pivot_longer(cols = c(2:5),
+               names_to = "type",
+               values_to = "value")
+
+
+# Scaling factor for secondary axis
+scale_factor <- max(df_long$value[df_long$type != "ratio_exp"], na.rm = TRUE) /
+  max(df_long$value[df_long$type == "ratio_exp"], na.rm = TRUE)
+
+# Split data
+bar_df  <- df_long %>% filter(type %in% c("budget","actual","corrected"))
+line_df <- df_long %>% filter(type == "ratio_exp")
+
+
+bar_df <- bar_df %>% 
+  mutate(
+    type = factor(type, levels = c("budget", "corrected", "actual"))
+  )
+
+
+
+
+showtext_auto(FALSE)
+
+agg_png("output/figures/03_devexp.png", width = 12,
+        height = 6.5, units = "in", res = 300)
+
+
+p <- ggplot() +
+  
+  # ---------------- Bars ----------------
+geom_col(
+  data = bar_df,
+  aes(x = year, y = value, fill = type),
+  position = position_dodge(width = 0.7),
+  width = 0.6
+) +
+  
+  # Bar labels
+  geom_text(
+    data = bar_df,
+    aes(x = year, y = value, label = round(value,2), group = type),
+    position = position_dodge(width = 0.7),
+    vjust = -.7,
+    size = 5.5,
+    angle = 0
+  ) +
+
+
+  # ---------------- Line ----------------
+geom_line(
+  data = line_df,
+  aes(x = year, 
+      y = value * scale_factor, 
+      color = type,
+      group = 1),
+  linewidth = 1.2
+) +
+  
+  geom_point(
+    data = line_df,
+    aes(x = year, 
+        y = value * scale_factor, 
+        color = type),
+    size = 2.5
+  ) +
+  
+  # Line labels
+  geom_text(
+    data = line_df,
+    aes(x = year, 
+        y = value * scale_factor, 
+        label = sprintf("%.2f%%", value*100)),
+    hjust = -.7,
+    color = "#6367FF",
+    size = 5.5
+  ) +
+  
+  # ---------------- Dual Axis ----------------
+scale_y_continuous(
+  name = "টাকা (কোটি)",
+  expand = expansion(mult = c(0, 0.15)),
+  sec.axis = sec_axis(~ . / scale_factor *100,
+                      name = "শতকরা হার (%)")
+) +
+  
+  # ---------------- Colors ----------------
+scale_fill_manual(values = c(
+  "budget"    = "#3A9AFF",
+  "actual"    = "#BCD9A2",
+  "corrected" = "#FB9B8F"
+),
+labels = c(
+  "budget"    = "বাজেট",
+  "actual"    = "প্রকৃত",
+  "corrected" = "সংশোধিত বাজেট"
+)
+) +
+  
+  scale_color_manual(values = c(
+    "ratio_exp" = "#3D45AA"),
+    labels = c("ratio_exp" = "প্রকৃত এর হার (সংশোধিতের তুলনায়)")
+  ) +
+  
+  # Merge legends
+  labs(fill = "", color = "") +
+  
+  theme_minimal(base_size = 12, base_family = "NikoshBAN") +
+  
+  # ---------------- Legend at Bottom ----------------
+theme(
+  legend.position = "bottom",
+  legend.direction = "horizontal",
+  legend.box = "horizontal",
+  legend.text = element_text(size = 14),
+  axis.text = element_text(size = 14,
+                           color = "black"),
+  axis.title.x = element_blank(),
+  axis.title.y = element_text(size = 14)
+) +
+  
+  guides(
+    fill  = guide_legend(nrow = 1),
+    color = guide_legend(nrow = 1)
+  ) 
+
+print(p)
+
+dev.off()
+
+
+
+
+
+
+

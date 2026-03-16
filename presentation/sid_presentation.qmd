@@ -1,0 +1,107 @@
+---
+format:
+  revealjs:
+    theme: simple
+    slide-number: true
+    transition: fade
+    center: false
+
+css: styles.css
+lang: bn
+---
+
+::::::::::: {.slide .title-slide}
+:::::::::: columns
+:::: {.column width="25%"}
+::: photo-col
+![](images/sid.png){fig-align="center" width="400" height="300"}
+:::
+::::
+
+::::::: {.column .title-col width="75%"}
+![](images/logo.png){fig-align="center" width="110"}
+
+::: dept
+পরিসংখ্যান ও তথ্য ব্যবস্থাপনা বিভাগ
+:::
+
+::: main-title
+বাজেট প্রাক্কলন (২০২৬–২৭) এবং <br> বাজেট প্রক্ষেপণ (২০২৭–২৮ ও ২০২৮–২৯)
+:::
+
+::: dept
+ত্রী-পক্ষীয় সভা
+:::
+
+::: fin-div
+বাজেট অনুবিভাগ-২ <br> অর্থ বিভাগ, অর্থ মন্ত্রণালয়<br> ১৫ মার্চ ২০২৬, সকাল ১১:০০ টা
+:::
+:::::::
+::::::::::
+:::::::::::
+
+------------------------------------------------------------------------
+
+::: slide-title
+উপস্থাপনার বিষয়সমূহ:
+:::
+
+-   কৌশলগত দলিলসমূহের সাথে বিভাগের কৌশলগত উদ্দেশ্য ও বাজেট বরাদ্দের যোগসূত্র পর্যালোচনা
+-   মন্ত্রণালয়ের এমবিএফ ম্যাপিং
+-   মন্ত্রণালয়ের এমবিএফ এর বিশ্লেষণ
+-   মন্ত্রণালয়ের রাজস্ব প্রাপ্তির সক্ষমতা ও প্রাক্কলন পর্যালোচনা
+-   মন্ত্রণালয়ের বাজেট ব্যয় সক্ষমতা ও প্রাক্কলণ বিশ্লেষণ
+-   মন্ত্রণালয়ের ২০২৫-২৬ অর্থবছরের মোট ব্যয়সীমা সুপারিশ
+
+------------------------------------------------------------------------
+
+::: slide-title
+মিশন স্টেটমেন্ট
+:::
+
+::: slide-content
+[দেশের উন্নয়ন ও জনকল্যাণে]{style="color: #6367FF;"} [আধুনিক পদ্ধতিতে]{style="color: goldenrod;"} [পরিসংখ্যান প্রস্তুত]{style="color: #F67D31;"} এবং [উন্নততর তথ্য প্রযুক্তির মাধ্যমে]{style="color: goldenrod;"} [তা বিশ্লেষণ, সংরক্ষণ ও প্রকাশ।]{style="color: #F67D31;"}
+:::
+
+------------------------------------------------------------------------
+
+::: slide-title
+পরিসংখ্যান ও তথ্য ব্যবস্থাপনা বিভাগের বাজেট কাঠামো
+:::
+
+```{mermaid}
+---
+config:
+  htmlLabels: true
+  markdownAutoWrap: true
+  flowchart:
+    wrappingWidth: 320
+    useMaxWidth: true
+    
+  themeVariables:
+    nodePadding: 10
+---
+
+flowchart TB
+
+    SID["পরিসংখ্যান ও তথ্য <br> ব্যবস্থাপনা বিভাগ"]
+
+    SID --> SEC["সচিবালয়"]
+    SID --> BBS["বাংলাদেশ পরিসংখ্যান <br> ব্যুরো"]
+
+    BBS --> U1["প্রধান কার্যালয়"]
+    BBS --> U2["বিভাগীয় কার্যালয়সমূহ"]
+    BBS --> U3["জেলা কার্যালয়সমূহ"]
+
+    BBS --> U4["উপজেলা কার্যালয়সমূহ"]
+    BBS --> U5["মেট্রোপলিটন কার্যালয়সমূহ"]
+
+    classDef head fill:#F8F3E1,color:#6367FF,stroke:#263B6A,stroke-width:0px,font-size:28px,font-weight:bold;
+    classDef branch fill:#E8EEF9,color:#263B6A,stroke:#8FA8D8,stroke-width:1.5px,font-size:24px, font-weight:bold;
+    classDef unit fill:#FFF4CC,color:#333333,stroke:#D6B656,stroke-width:1px,font-size:22px;
+    
+    class SID head;
+    class SEC,BBS branch;
+    class U1,U2,U3,U4,U5 unit;
+
+```

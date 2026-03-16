@@ -1,0 +1,168 @@
+---
+title: ""
+format: revealjs
+execute: 
+  echo: false
+---
+
+<!-- Custom Title Slide -->
+
+<section class="title-slide">
+
+<img src="images/finance_logo.png" width="120">
+
+# National Budget Presentation  
+## Fiscal Year 2025–26
+
+### Finance Division
+
+</section>
+
+---
+
+## Presentation Overview
+
+- Macroeconomic Outlook
+- Revenue Performance
+- Expenditure Structure
+- Sector Allocation
+- Five-Year Trend
+- Policy Priorities
+
+---
+
+## Macroeconomic Snapshot
+
+```{r}
+library(tidyverse)
+
+df <- tibble(
+year=c(2021,2022,2023,2024,2025),
+gdp=c(6.2,7.1,6.8,7.3,7.5)
+)
+
+ggplot(df,aes(year,gdp))+
+geom_line(linewidth=2,color="#1565C0")+
+geom_point(size=4)+
+theme_minimal(base_size=18)+
+labs(
+title="GDP Growth Trend",
+y="Growth (%)",
+x=""
+)
+```
+
+---
+
+## Budget Composition
+
+::: columns
+
+::: column
+
+### Budget Size
+
+- Total Budget: **7.5 Trillion**
+- Revenue: **5.0 Trillion**
+- Deficit: **2.5 Trillion**
+
+:::
+
+::: column
+
+```{r}
+pie <- data.frame(
+sector=c("Revenue","Deficit"),
+value=c(500,250)
+)
+
+ggplot(pie,aes(x="",y=value,fill=sector))+
+geom_bar(stat="identity",width=1)+
+coord_polar("y")+
+theme_void()+
+theme(text=element_text(size=18))
+```
+
+:::
+
+:::
+
+---
+
+## Interactive Budget Dashboard
+
+```{r}
+library(plotly)
+
+fig <- plot_ly(
+x=c("Education","Health","Infrastructure","Agriculture"),
+y=c(95,42,120,35),
+type="bar"
+)
+
+fig
+```
+
+---
+
+## Five Year Trend
+
+```{r}
+df <- data.frame(
+year=2021:2025,
+expense=c(520,560,610,680,750)
+)
+
+ggplot(df,aes(year,expense))+
+geom_col(fill="#2E7D32")+
+theme_minimal(base_size=18)+
+labs(
+title="Government Expenditure Trend",
+y="Billion"
+)
+```
+
+---
+
+## Policy Priorities {.center}
+
+::: {.fragment}
+Infrastructure investment expansion
+:::
+
+::: {.fragment}
+Digital governance
+:::
+
+::: {.fragment}
+Climate resilient economy
+:::
+
+::: {.fragment}
+Human capital development
+:::
+
+---
+
+## Budget Allocation Map {background-image="images/bg_data.jpg"}
+
+### Key Investment Areas
+
+- Transportation
+- Energy
+- Education
+- Health
+
+---
+
+## Key Takeaways
+
+✔ Sustainable fiscal strategy  
+✔ Strategic infrastructure spending  
+✔ Strong revenue mobilization  
+
+---
+
+# Thank You
+
+### Questions?
