@@ -7,13 +7,39 @@ format:
 
 **বাস্তবায়ন পরিবীক্ষণ ও মূল্যায়নগের পরিচালন ব্যয় বরাদ্দ বিশ্লেষণ**
 
-```{r}
+
+```{r path}
 
 library(here)
 library(writexl)
 library(tibble)
 library(dplyr)
 library(tidyverse)
+library(flextable)
+
+if (here() == "C:/Users/bmani/GitHub/budget-r-imed") {
+  drive <- "C:/Users/bmani/OneDrive/Finance Division/tripartite_meeting26/115 IMED/"
+  # font_path <- "C:/Users/bmani/AppData/Local/Microsoft/Windows/Fonts/"
+  
+} else if (Sys.getenv("USERNAME") == "Shihab") {
+  
+  drive <- "C:/Users/User/OneDrive/Finance Division/tripartite_meeting26/115 IMED/"
+  # font_path <- "C:/Users/Md. Mamunul Karim/AppData/Local/Microsoft/Windows/Fonts"
+  
+} else {
+  "Device Not available"
+}
+
+```
+
+
+
+
+
+```{r table}
+
+set_flextable_defaults(font.family = "NikoshBAN")
+
 
 budget <- readRDS(here("data/final/budget_df.rds"))
 
@@ -36,8 +62,7 @@ df_table <- budget %>% filter(type == 1)
 
 bppa_total <- df_table %>% 
   filter(activity_code == "131021401") %>% 
-  summarise(across(where(is.numeric), ~sum(.x, na.rm = TRUE)),
-            across(!where(is.numeric), ~ NA))
+  summarise(across(where(is.numeric), ~sum(.x, na.rm = TRUE)))
 
 
 bppa_total$code_name <- "বাজেট সহায়তা"
@@ -47,16 +72,125 @@ df_table <- df_table %>%
 
 df_table <- bind_rows(df_table, bppa_total)
 
+
+df_total <- df_table %>% 
+  summarise(
+    across(
+      where(is.numeric), ~sum(.x, na.rm = TRUE)
+    )) 
+
+df_total$code_name <- "মোট"
+
+df_table <- bind_rows(df_table, df_total)
+
+
+## insert group rows
+group_row <- df_table %>%
+  filter(
+    substr(economic_code, 1, 4) == "3111"
+  ) %>% 
+  summarise(across(where(is.numeric), ~sum(.x, na.rm = TRUE)))
+group_row$code_name <- "৩২১১: নগদ, মজুরি ও বেতন"
+
+df_table <- bind_rows(group_row, df_table)
+
+#------------------------------
+
+
+## insert group rows
+group_row <- df_table %>%
+  filter(
+    substr(economic_code, 1, 4) == "3211"
+  ) %>% 
+  summarise(across(where(is.numeric), ~sum(.x, na.rm = TRUE)))
+group_row$code_name <- "৩২১১: প্রশাসনিক ব্যয়"
+
+pos <- 25
+
+df_table <- bind_rows(
+  slice(df_table, 1:(pos-1)),
+  group_row,
+  slice(df_table, pos:n())
+)
+#------------------------------
+
+## insert group rows
+group_row <- df_table %>%
+  filter(
+    substr(economic_code, 1, 4) == "3211"
+  ) %>% 
+  summarise(across(where(is.numeric), ~sum(.x, na.rm = TRUE)))
+group_row$code_name <- "৩২১১: প্রশাসনিক ব্যয়"
+
+pos <- 25
+
+df_table <- bind_rows(
+  slice(df_table, 1:(pos-1)),
+  group_row,
+  slice(df_table, pos:n())
+)
+#------------------------------
+
+
+
+
+
 df <-df_table %>% mutate(
   desc = paste(economic_code, "-", code_name),
   additional = budget26_27 - corrected25_26,
   percent_increase = (budget26_27/corrected25_26-1)*100,
   comment = ""
-) %>% select(c(desc, budget25_26, corrected25_26, budget26_27, additional,
+  ) %>% select(c(desc, budget25_26, corrected25_26, budget26_27, additional,
                percent_increase, fd_advice, comment))
 
 
 
+
+
+
+ft <- flextable(df)
+
+ft <- delete_part(x = ft, part = "header")
+ft <- add_header_row(
+  ft,
+  values = c("বিবরণ",
+             "বাজেট ২০২৫-২৬",
+             "সংশোধিত বাজেট ২০২৫-২৬",
+             "প্রাক্কলন ২০২৬-২৭",
+             "অতিরিক্ত দাবি (সংশোধিত বাজেটের তুলনায়)",
+             "বৃদ্ধি (%) (সংশোধিত বাজেটর তুলনায়)",
+             "অর্থ বিভাগের সুপারিশ",
+             "মন্তব্য"
+            ))
+
+ft <- font(
+  ft,
+  fontname = "NikoshBAN",
+  part = "header"
+)
+
+ft <- font(
+  ft,
+  fontname = "NikoshBAN",
+  part = "body"
+)
+
+ft <- colformat_double(
+  ft,
+  j = 2:7,
+  digits = 2,
+  big.mark = ","
+)
+
+ft <- colformat_double(
+  ft,
+  j = 6,
+  digits = 2,
+  big.mark = ",",
+  suffix = "%"
+)
+
+ft
 
 ```
 
