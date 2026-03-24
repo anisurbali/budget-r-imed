@@ -126,7 +126,7 @@ group_row <- df_table %>%
   summarise(across(where(is.numeric), ~sum(.x, na.rm = TRUE)))
 group_row$code_name <- "৩২২১: ফি চার্জ ও কমিশন"
 
-pos <- which(grepl("3221101", df$desc))
+pos <- which(grepl("3221101", df_table$economic_code))
 
 df_table <- bind_rows(
   slice(df_table, 1:(pos-1)),
@@ -145,7 +145,7 @@ group_row <- df_table %>%
   summarise(across(where(is.numeric), ~sum(.x, na.rm = TRUE)))
 group_row$code_name <- "৩২৩১: প্রশিক্ষণ"
 
-pos <- which(grepl("3231301", df$desc))
+pos <- which(grepl("3231301", df_table$economic_code))
 
 df_table <- bind_rows(
   slice(df_table, 1:(pos-1)),
@@ -164,7 +164,7 @@ group_row <- df_table %>%
   summarise(across(where(is.numeric), ~sum(.x, na.rm = TRUE)))
 group_row$code_name <- "৩২৪৩: পেট্রোল, অয়েল ও লুব্রিকেন্ট"
 
-pos <- which(grepl("3243101", df$desc))
+pos <- which(grepl("3243101", df_table$economic_code))
 
 df_table <- bind_rows(
   slice(df_table, 1:(pos-1)),
@@ -183,7 +183,7 @@ group_row <- df_table %>%
   summarise(across(where(is.numeric), ~sum(.x, na.rm = TRUE)))
 group_row$code_name <- "৩২৪৪: ভ্রমণ ও বদলি"
 
-pos <- which(grepl("3244101", df$desc))
+pos <- which(grepl("3244101", df_table$economic_code))
 
 df_table <- bind_rows(
   slice(df_table, 1:(pos-1)),
@@ -200,7 +200,7 @@ group_row <- df_table %>%
   summarise(across(where(is.numeric), ~sum(.x, na.rm = TRUE)))
 group_row$code_name <- "৩২৫৫:  মুদ্রণ ও মনিহারি"
 
-pos <- which(grepl("3255101", df$desc))
+pos <- which(grepl("3255101", df_table$economic_code))
 
 df_table <- bind_rows(
   slice(df_table, 1:(pos-1)),
@@ -217,7 +217,7 @@ group_row <- df_table %>%
   summarise(across(where(is.numeric), ~sum(.x, na.rm = TRUE)))
 group_row$code_name <- "৩২৫৬: সাধারণ সরবরাহ ও কাঁচামাল সামগ্রী"
 
-pos <- which(grepl("3256106", df$desc))
+pos <- which(grepl("3256106", df_table$economic_code))
 
 df_table <- bind_rows(
   slice(df_table, 1:(pos-1)),
@@ -234,7 +234,7 @@ group_row <- df_table %>%
   summarise(across(where(is.numeric), ~sum(.x, na.rm = TRUE)))
 group_row$code_name <- "৩২৫৭:  পেশাগত সেবা, সম্মানী ও বিশেষ ব্যয়"
 
-pos <- which(grepl("3257101", df$desc))
+pos <- which(grepl("3257101", df_table$economic_code))
 
 df_table <- bind_rows(
   slice(df_table, 1:(pos-1)),
@@ -252,7 +252,7 @@ group_row <- df_table %>%
   summarise(across(where(is.numeric), ~sum(.x, na.rm = TRUE)))
 group_row$code_name <- "৩২৫৮:  মেরামত ও সংরক্ষণ"
 
-pos <- which(grepl("3258101", df$desc))
+pos <- which(grepl("3258101", df_table$economic_code))
 
 df_table <- bind_rows(
   slice(df_table, 1:(pos-1)),
@@ -270,7 +270,7 @@ group_row <- df_table %>%
   summarise(across(where(is.numeric), ~sum(.x, na.rm = TRUE)))
 group_row$code_name <- "৩৯১১: সংরক্ষিত"
 
-pos <- which(grepl("3911111", df$desc))
+pos <- which(grepl("3911111", df_table$economic_code))
 
 df_table <- bind_rows(
   slice(df_table, 1:(pos-1)),
@@ -287,7 +287,7 @@ group_row <- df_table %>%
   summarise(across(where(is.numeric), ~sum(.x, na.rm = TRUE)))
 group_row$code_name <- "৪১: অআর্থিক সম্পদ"
 
-pos <- which(grepl("4111309", df$desc))
+pos <- which(grepl("4111309", df_table$economic_code))
 
 df_table <- bind_rows(
   slice(df_table, 1:(pos-1)),
