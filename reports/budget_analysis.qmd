@@ -3,6 +3,11 @@ title: "budget_analysis"
 format:
   docx:
     reference-doc: reference.docx
+    
+execute:
+  echo: false
+  message: false
+  warning: false
 ---
 
 **বাস্তবায়ন পরিবীক্ষণ ও মূল্যায়নগের পরিচালন ব্যয় বরাদ্দ বিশ্লেষণ**
@@ -78,7 +83,7 @@ df_total <- df_table %>%
       where(is.numeric), ~sum(.x, na.rm = TRUE)
     )) 
 
-df_total$code_name <- "মোট"
+df_total$code_name <- "মোট:"
 
 df_table <- bind_rows(df_table, df_total)
 
@@ -89,7 +94,7 @@ group_row <- df_table %>%
     substr(economic_code, 1, 4) == "3111"
   ) %>% 
   summarise(across(where(is.numeric), ~sum(.x, na.rm = TRUE)))
-group_row$code_name <- "৩২১১: নগদ, মজুরি ও বেতন"
+group_row$code_name <- "৩১১১: নগদ, মজুরি ও বেতন"
 
 df_table <- bind_rows(group_row, df_table)
 
@@ -111,31 +116,191 @@ df_table <- bind_rows(
   group_row,
   slice(df_table, pos:n())
 )
-#------------------------------
+#-------------------------------------------------------------------
 
 ## insert group rows
 group_row <- df_table %>%
   filter(
-    substr(economic_code, 1, 4) == "3211"
+    substr(economic_code, 1, 4) == "3221"
   ) %>% 
   summarise(across(where(is.numeric), ~sum(.x, na.rm = TRUE)))
-group_row$code_name <- "৩২১১: প্রশাসনিক ব্যয়"
+group_row$code_name <- "৩২২১: ফি চার্জ ও কমিশন"
 
-pos <- 25
+pos <- which(grepl("3221101", df$desc))
 
 df_table <- bind_rows(
   slice(df_table, 1:(pos-1)),
   group_row,
   slice(df_table, pos:n())
 )
-#------------------------------
+#------------------------------------------------------------------------
+
+#-------------------------------------------------------------------
+
+## insert group rows
+group_row <- df_table %>%
+  filter(
+    substr(economic_code, 1, 4) == "3231"
+  ) %>% 
+  summarise(across(where(is.numeric), ~sum(.x, na.rm = TRUE)))
+group_row$code_name <- "৩২৩১: প্রশিক্ষণ"
+
+pos <- which(grepl("3231301", df$desc))
+
+df_table <- bind_rows(
+  slice(df_table, 1:(pos-1)),
+  group_row,
+  slice(df_table, pos:n())
+)
+#------------------------------------------------------------------------
 
 
+
+## insert group rows
+group_row <- df_table %>%
+  filter(
+    substr(economic_code, 1, 4) == "3243"
+  ) %>% 
+  summarise(across(where(is.numeric), ~sum(.x, na.rm = TRUE)))
+group_row$code_name <- "৩২৪৩: পেট্রোল, অয়েল ও লুব্রিকেন্ট"
+
+pos <- which(grepl("3243101", df$desc))
+
+df_table <- bind_rows(
+  slice(df_table, 1:(pos-1)),
+  group_row,
+  slice(df_table, pos:n())
+)
+#------------------------------------------------------------------------
+
+
+
+## insert group rows
+group_row <- df_table %>%
+  filter(
+    substr(economic_code, 1, 4) == "3244"
+  ) %>% 
+  summarise(across(where(is.numeric), ~sum(.x, na.rm = TRUE)))
+group_row$code_name <- "৩২৪৪: ভ্রমণ ও বদলি"
+
+pos <- which(grepl("3244101", df$desc))
+
+df_table <- bind_rows(
+  slice(df_table, 1:(pos-1)),
+  group_row,
+  slice(df_table, pos:n())
+)
+#------------------------------------------------------------------------
+
+## insert group rows
+group_row <- df_table %>%
+  filter(
+    substr(economic_code, 1, 4) == "3255"
+  ) %>% 
+  summarise(across(where(is.numeric), ~sum(.x, na.rm = TRUE)))
+group_row$code_name <- "৩২৫৫:  মুদ্রণ ও মনিহারি"
+
+pos <- which(grepl("3255101", df$desc))
+
+df_table <- bind_rows(
+  slice(df_table, 1:(pos-1)),
+  group_row,
+  slice(df_table, pos:n())
+)
+#------------------------------------------------------------------------
+
+## insert group rows
+group_row <- df_table %>%
+  filter(
+    substr(economic_code, 1, 4) == "3256"
+  ) %>% 
+  summarise(across(where(is.numeric), ~sum(.x, na.rm = TRUE)))
+group_row$code_name <- "৩২৫৬: সাধারণ সরবরাহ ও কাঁচামাল সামগ্রী"
+
+pos <- which(grepl("3256106", df$desc))
+
+df_table <- bind_rows(
+  slice(df_table, 1:(pos-1)),
+  group_row,
+  slice(df_table, pos:n())
+)
+#------------------------------------------------------------------------
+
+## insert group rows
+group_row <- df_table %>%
+  filter(
+    substr(economic_code, 1, 4) == "3257"
+  ) %>% 
+  summarise(across(where(is.numeric), ~sum(.x, na.rm = TRUE)))
+group_row$code_name <- "৩২৫৭:  পেশাগত সেবা, সম্মানী ও বিশেষ ব্যয়"
+
+pos <- which(grepl("3257101", df$desc))
+
+df_table <- bind_rows(
+  slice(df_table, 1:(pos-1)),
+  group_row,
+  slice(df_table, pos:n())
+)
+#------------------------------------------------------------------------
+
+
+## insert group rows
+group_row <- df_table %>%
+  filter(
+    substr(economic_code, 1, 4) == "3258"
+  ) %>% 
+  summarise(across(where(is.numeric), ~sum(.x, na.rm = TRUE)))
+group_row$code_name <- "৩২৫৮:  মেরামত ও সংরক্ষণ"
+
+pos <- which(grepl("3258101", df$desc))
+
+df_table <- bind_rows(
+  slice(df_table, 1:(pos-1)),
+  group_row,
+  slice(df_table, pos:n())
+)
+#------------------------------------------------------------------------
+
+
+## insert group rows
+group_row <- df_table %>%
+  filter(
+    substr(economic_code, 1, 4) == "3911"
+  ) %>% 
+  summarise(across(where(is.numeric), ~sum(.x, na.rm = TRUE)))
+group_row$code_name <- "৩৯১১: সংরক্ষিত"
+
+pos <- which(grepl("3911111", df$desc))
+
+df_table <- bind_rows(
+  slice(df_table, 1:(pos-1)),
+  group_row,
+  slice(df_table, pos:n())
+)
+#------------------------------------------------------------------------
+
+## insert group rows
+group_row <- df_table %>%
+  filter(
+    substr(economic_code, 1, 4) == "41"
+  ) %>% 
+  summarise(across(where(is.numeric), ~sum(.x, na.rm = TRUE)))
+group_row$code_name <- "৪১: অআর্থিক সম্পদ"
+
+pos <- which(grepl("4111309", df$desc))
+
+df_table <- bind_rows(
+  slice(df_table, 1:(pos-1)),
+  group_row,
+  slice(df_table, pos:n())
+)
+#------------------------------------------------------------------------
 
 
 
 df <-df_table %>% mutate(
-  desc = paste(economic_code, "-", code_name),
+  desc = if_else(is.na(economic_code), code_name, paste(economic_code, "-", code_name)),
+  # desc = paste(economic_code, "-", code_name),
   additional = budget26_27 - corrected25_26,
   percent_increase = (budget26_27/corrected25_26-1)*100,
   comment = ""
@@ -188,6 +353,38 @@ ft <- colformat_double(
   big.mark = ",",
   suffix = "%"
 )
+
+
+
+## column width setup
+ft <- width(ft,
+  j = c(1:8),
+  width = c(
+    1.7,  # বিবরণ (wide text)
+    0.7,  # বাজেট
+    0.7,  # সংশোধিত বাজেট
+    0.7,  # প্রাক্কলন
+    0.7,  # অতিরিক্ত দাবি
+    0.7,  # বৃদ্ধি %
+    0.7,  # সুপারিশ (text)
+    0.5   # মন্তব্য (text heavy)
+  )
+)
+
+ft <- bold(
+  ft,
+  i = grepl(":|বাজেট সহায়তা", df$desc),
+  bold = TRUE
+)
+
+ft <- padding(
+  ft,
+  i = grepl("-", df$desc),
+  j = "desc",
+  padding.left = 15,
+  part = "body"
+)
+
 
 ft
 

@@ -110,7 +110,7 @@ row_graph <- function(df, econcode, inst_value, path) {
         "actual" = "blue",
         "corrected" = "green",
         "Budget 26-27" = "red",
-        "FD Rec" = "yellow" # color for hline
+        "FD Rec" = "#5478FF" # color for hline
       ),
       labels = c(
         "actual" = "প্রকৃত ব্যয়",
@@ -140,7 +140,7 @@ row_graph <- function(df, econcode, inst_value, path) {
       geom_text(
         aes(x = "25_26", y = fd_rec,
             label = sprintf("%.3f", fd_rec)),
-        colour = "yellow",
+        colour = "5478FF",
         vjust = -0.7,
         size = 5,
         inherit.aes = FALSE
