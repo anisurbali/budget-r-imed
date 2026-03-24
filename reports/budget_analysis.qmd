@@ -40,7 +40,6 @@ if (here() == "C:/Users/bmani/GitHub/budget-r-imed") {
 
 set_flextable_defaults(font.family = "NikoshBAN")
 
-
 budget <- readRDS(here("data/final/budget_df.rds"))
 
 # write_xlsx(budget, paste0(drive, "data/budget_inputxxxx.xlsx"))
