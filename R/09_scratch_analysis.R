@@ -1,15 +1,29 @@
 ## create table of expenditure analyis codewise
 rm(list = ls())
+library(here)
+
+source(here("R", "01_load_packages.R"))
 
 df <- readRDS(here("data/final/budget_df.rds"))
 
 ## actual exp of salary and allowance
 
 
+## import the fd advice column
+# write_xlsx(budget, paste0(drive, "data/budget_inputxxxx.xlsx"))
+fd <- readxl::read_xlsx(paste0(drive, "data/budget_input.xlsx"))
+df$fd_advice = fd$fd_advice
+
+
+
 
 #----------------------------------------------------------------------------
 #                   Create a function that will generate graphs for each code
 #-------------------------------------------------------------------------------
+
+
+
+
 
 showtext_auto(FALSE)
 
@@ -24,11 +38,13 @@ row_graph <- function(df, econcode, inst_value, path) {
     type == 1 & inst_code == inst_value & is.na(activity_code)
     & economic_code == econcode 
   ) %>% select(
-    starts_with(c("actual", "budget", "corrected")) &
+    starts_with(c("actual", "budget", "corrected", "fd_advice")) &
       !ends_with(c("gob", "rpag", "rpas", ".y", "dpa"))
   ) 
   
   budget26_27 <- ifelse(is.na(df1$budget26_27), 0, df1$budget26_27)   # for horizontal line
+  
+  fd_rec <- ifelse(is.na(df1$fd_advice), 0, df1$fd_advice)   # for horizontal line
   
   df1 <- pivot_longer(df1, cols = everything(), names_to = "year", values_to = "value")
   
@@ -53,24 +69,25 @@ row_graph <- function(df, econcode, inst_value, path) {
     geom_text(
       data = df1 %>%
         filter(type %in% c("actual", "corrected") & !(year %in% c("26_27"))) %>%
-        mutate(label = sprintf("%.2f", value)),
+        mutate(label = sprintf("%.3f", value)),
       aes(x = year, y = value, label = label, colour = type),
       size = 5,
       vjust = -.3,
       show.legend = FALSE
     )+
     
-    geom_hline(aes(yintercept = budget26_27, colour = "Budget 26-27"), 
+    geom_hline(aes(yintercept = budget26_27, colour = "Budget 26-27"),  ## ministry proposal
                linetype = "solid") +
     
     geom_text(
       aes(x = "25_26", y = budget26_27,
-          label = sprintf("%.2f", budget26_27)),
+          label = sprintf("%.3f", budget26_27)),
       colour = "red",
       vjust = -0.7,
       size = 5,
       inherit.aes = FALSE
     )+
+    
     
     labs(
       title = paste(econcode, codename),
@@ -92,12 +109,14 @@ row_graph <- function(df, econcode, inst_value, path) {
       values = c(
         "actual" = "blue",
         "corrected" = "green",
-        "Budget 26-27" = "red"   # color for hline
+        "Budget 26-27" = "red",
+        "FD Rec" = "yellow" # color for hline
       ),
       labels = c(
         "actual" = "প্রকৃত ব্যয়",
         "corrected" = "সংশোধিত বাজেট",
-        "Budget 26-27" = "২০২৬-২৭ প্রস্তাবিত"
+        "Budget 26-27" = "২০২৬-২৭ প্রস্তাবিত",
+        "FD Rec" = "অর্থ বিভাগের সুপারিশ"
         )
       ) +
     
@@ -111,6 +130,24 @@ row_graph <- function(df, econcode, inst_value, path) {
       axis.title.x = element_blank(),
       axis.text.x = element_text(family = "NikoshBAN", size = 15, colour = "black")
     )
+  
+  
+  if (fd_rec != budget26_27) {
+    
+    p <- p +
+      geom_hline(aes(yintercept = fd_rec, colour = "FD Rec"),
+                 linetype = "solid") +
+      geom_text(
+        aes(x = "25_26", y = fd_rec,
+            label = sprintf("%.3f", fd_rec)),
+        colour = "yellow",
+        vjust = -0.7,
+        size = 5,
+        inherit.aes = FALSE
+      )
+  }
+  
+  
   
   print(p)
   
@@ -131,86 +168,4 @@ for (code in all_codes) {
   print(code)
   
 }
-
-
-
-#------------------------------------------------------------------------------
-#           BBS Analysis
-#-----------------------------------------------------------------------------
-
-
-
-inst_value <- "1160201103366"
-
-# inst_value <- "1160101103365"
-store_path <- "output/code_graphs/BBS/"
-
-all_codes <- df %>% filter(inst_code == inst_value & is.na(activity_code) &
-                             budget26_27 != 0 &
-                             !is.na(budget26_27)) %>% 
-  select(economic_code) %>% pull()
-
-for (code in all_codes) {
-  row_graph(df, code, inst_value, store_path)
-  print(code)
-  
-}
-
-
-
-
-
-#------------------------------------------------------------------------------
-#           Divisional Offices and Subordinates
-#-----------------------------------------------------------------------------
-
-
-## list of divisional and subordinate offices
-
-div_office_list <- list("1160202103367",
-                        "1160202103368",
-                        "1160202103369",
-                        "1160202103370",
-                        "1160202103371",
-                        "1160202103372",
-                        "1160202103373",
-                        "1160202103374",
-                        "1160203000000",
-                        "1160204000000",
-                        "1160205000000"
-)
-
-
-for (inst_value in div_office_list) {
-  
-  
-  store_path <- paste0("output/code_graphs/", inst_value, "/")
-  
-  if (!dir.exists(store_path)) {
-    dir.create(store_path)
-    cat(sprintf("Directory '%s' created.\n", store_path))
-  } 
-  
-  
-  
-  
-  
-  all_codes <- df %>% filter(inst_code == inst_value &
-                               is.na(activity_code) &
-                               budget26_27 != 0 &
-                               !is.na(budget26_27)) %>%
-    select(economic_code) %>% pull()
-  
-  # 
-  
-  for (code in all_codes) {
-    row_graph(df, code, inst_value, store_path)
-    print(code)
-    
-  }
-  
-}
-
-
-
 
