@@ -372,12 +372,6 @@ ft <- width(ft,
 )
 
 
-ft <- delete_rows(ft, i = ~ (budget26_27 == 0 & desc != "বাজেট সহায়তা বিপিপিএ") |
-                    is.na(budget26_27) |
-                    (budget26_27 == fd_advice & grepl("-", desc)) )
-
-
-
 
 ```
 
@@ -402,6 +396,13 @@ ft <- border(
   border = officer::fp_border(color = "black", width = 1),
   part = "all"
 )
+
+
+
+ft <- delete_rows(ft, i = ~ (budget26_27 == 0 & desc != "বাজেট সহায়তা বিপিপিএ") |
+                    is.na(budget26_27) |
+                    (budget26_27 == fd_advice & grepl("-", desc)) )
+
 
 
 ft
