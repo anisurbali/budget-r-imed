@@ -69,7 +69,7 @@ bppa_total <- df_table %>%
   summarise(across(where(is.numeric), ~sum(.x, na.rm = TRUE)))
 
 
-bppa_total$code_name <- "বাজেট সহায়তা"
+bppa_total$code_name <- "বাজেট সহায়তা বিপিপিএ"
 
 df_table <- df_table %>% 
   filter(inst_code == "1150101103364" & is.na(activity_code))
@@ -302,7 +302,7 @@ df <-df_table %>% mutate(
   desc = if_else(is.na(economic_code), code_name, paste(economic_code, "-", code_name)),
   # desc = paste(economic_code, "-", code_name),
   additional = budget26_27 - corrected25_26,
-  percent_increase = (budget26_27/corrected25_26-1)*100,
+  percent_increase = if_else(corrected25_26==0,NA, (budget26_27/corrected25_26-1)*100),
   comment = ""
   ) %>% select(c(desc, budget25_26, corrected25_26, budget26_27, additional,
                percent_increase, fd_advice, comment))
@@ -371,6 +371,18 @@ ft <- width(ft,
   )
 )
 
+
+ft <- delete_rows(ft, i = ~ (budget26_27 == 0 & desc != "বাজেট সহায়তা বিপিপিএ") |
+                    is.na(budget26_27) |
+                    (budget26_27 == fd_advice & grepl("-", desc)) )
+
+
+
+
+```
+
+```{r table_partA}
+
 ft <- bold(
   ft,
   i = grepl(":|বাজেট সহায়তা", df$desc),
@@ -383,6 +395,12 @@ ft <- padding(
   j = "desc",
   padding.left = 15,
   part = "body"
+)
+
+ft <- border(
+  x = ft,
+  border = officer::fp_border(color = "black", width = 1),
+  part = "all"
 )
 
 
