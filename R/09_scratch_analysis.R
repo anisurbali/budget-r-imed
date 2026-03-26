@@ -130,23 +130,23 @@ row_graph <- function(df, econcode, inst_value, path) {
       axis.title.x = element_blank(),
       axis.text.x = element_text(family = "NikoshBAN", size = 15, colour = "black")
     )
-  # 
-  # 
-  # if (fd_rec != budget26_27) {
-  #   
-  #   p <- p +
-  #     geom_hline(aes(yintercept = fd_rec, colour = "FD Rec"),
-  #                linetype = "solid") +
-  #     geom_text(
-  #       aes(x = "25_26", y = fd_rec,
-  #           label = sprintf("%.3f", fd_rec)),
-  #       colour = "5478FF",
-  #       vjust = -0.7,
-  #       size = 5,
-  #       inherit.aes = FALSE
-  #     )
-  # }
-  # 
+
+
+  if (fd_rec != budget26_27) {
+
+    p <- p +
+      geom_hline(aes(yintercept = fd_rec, colour = "FD Rec"),
+                 linetype = "solid") +
+      geom_text(
+        aes(x = "25_26", y = fd_rec,
+            label = sprintf("%.3f", fd_rec)),
+        colour = "5478FF",
+        vjust = -0.7,
+        size = 5,
+        inherit.aes = FALSE
+      )
+  }
+
   
   
   print(p)
