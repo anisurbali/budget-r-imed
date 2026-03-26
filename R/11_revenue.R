@@ -10,7 +10,7 @@ source(here("R", "01_load_packages.R"))
 ###################################################################
 
 raw_data <- read_excel(
-  here(drive, "data/raw/bc1_form_7_revenue_details_5ytdowad7.xls"),
+  here(drive, "data/bc1_form_7_revenue_details.xls"),
   sheet = 1)
 
 ## keep necessary columns
@@ -31,7 +31,7 @@ colnames(raw_data) <- c("economic_code", "code_name",
 ## clean data by removing unncessary rows and commas
 
 raw_data <- raw_data %>% 
-  filter(nchar(raw_data$economic_code)==7 & !startsWith(raw_data$economic_code, "116"))
+  filter(nchar(raw_data$economic_code)==7 & !startsWith(raw_data$economic_code, "115"))
 
 
 ## check if any value *failed to decode utf16*
@@ -62,7 +62,7 @@ saveRDS(raw_data, here("data/processed/form7.rds"))
 ###################################################################
 
 raw_data <- read_excel(
-  here(drive, "data/raw/receipt_5_yrs_economicwise_26_27.xls"),
+  here(drive, "data/receipt_5_yrs_economicwise_26_27.xls"),
   sheet = 1)
 
 
@@ -103,7 +103,7 @@ saveRDS(raw_data, here("data/processed/rev5yr26_27.rds"))
 ###################################################################
 
 raw_data <- read_excel(
-  here(drive, "data/raw/receipt_5_yrs_economicwise_24_25.xls"),
+  here(drive, "data/receipt_5_yrs_economicwise_24_25.xls"),
   sheet = 1)
 
 

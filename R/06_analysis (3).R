@@ -105,8 +105,8 @@ p <- ggplot(plot_df,
     "actual24_25" = "2024-25 \n প্রকৃত",
     "budget25_26" = "2025-26 \n বাজেট",
     "corrected25_26" = "2025-26 \n সংশোধিত বাজেট ",
-    "budget26_27" = "2026-27  \n প্রক্ষেপন",
-    "budget27_28" = "2027-28 \n প্রাক্কলন",
+    "budget26_27" = "2026-27  \n প্রাক্কলন",
+    "budget27_28" = "2027-28 \n প্রক্ষেপন",
     "budget28_29" = "2028-29 \n প্রক্ষেপন"
   ))+
   
@@ -123,7 +123,7 @@ p <- ggplot(plot_df,
     panel.grid.major.x = element_blank(),
     panel.grid.minor = element_blank(),
     panel.grid.major.y = element_line(color = "#E6E6E6", linewidth = 0.8),
-    axis.text.x = element_text(family = "NikoshBAN", size = 15, colour = "black")
+    axis.text.x = element_text(family = "NikoshBAN", size = 18, colour = "black")
     ) +
  
   geom_text(aes(label = sprintf("%.2f", Amount)),
@@ -144,7 +144,7 @@ dev.off()
   
 ############################################
 
-# stacked column chart for operating and development ratio
+# stacked column chart for operating and development ratio graph 2
 ##################################################################
 #-------------------------------------------------------------------------------
   
@@ -328,7 +328,7 @@ geom_line(
     aes(x = year, 
         y = value * scale_factor, 
         label = sprintf("%.2f%%", value*100)),
-    vjust = -0.1,
+    vjust = -.01,
     color = "black",
     size = 5.5
   ) +
@@ -355,7 +355,7 @@ labels = c(
   
   scale_color_manual(values = c(
     "ratio_corrected" = "#3D45AA"),
-    labels = c("ratio_corrected" = "প্রকৃত ব্যয় এর হার \n (সংশোধিতের তুলনায়)")
+    labels = c("ratio_corrected" = "প্রকৃত ব্যয় এর হার \n (সংশোধিত বাজেটের তুলনায়)")
   ) +
   
   # Merge legends
@@ -368,11 +368,11 @@ theme(
   legend.position = "bottom",
   legend.direction = "horizontal",
   legend.box = "horizontal",
-  legend.text = element_text(size = 14),
-  axis.text = element_text(size = 14,
+  legend.text = element_text(size = 18),
+  axis.text = element_text(size = 18,
                            color = "black"),
   axis.title.x = element_blank(),
-  axis.title.y = element_text(size = 14)
+  axis.title.y = element_text(size = 18)
 ) +
   
   guides(

@@ -53,6 +53,12 @@ plot_df$type <- factor(plot_df$type,
 ##########################################################################
 
 
+ceiling <- data.frame(
+  year = c("26_27", "27_28", "28_29"),
+  Amount = c(548.22, 603.04, 663.34),   # your values here
+  type = "target",   # new category
+  label = c("548.22", "603.04", "663.34")
+)
 
 agg_png("output/figures/03_rev_graph.png", width = 12,
         height = 8, units = "in", res = 300)
@@ -73,16 +79,39 @@ p <- ggplot(plot_df,
            width = 0.7,
            color = "white") +
   
+  # special single bar on 26_27
+  geom_col(
+    data = ceiling,
+    aes(x = year, y = Amount, fill = type),
+    inherit.aes = FALSE,
+    width = 0.18        # make it narrower so it sits on top
+  ) +
+  
+  
+  # label for special bar
+  geom_text(
+    data = ceiling,
+    aes(x = year, y = Amount, label = label),
+    inherit.aes = FALSE,
+    family = "NikoshBAN",
+    size = 5,
+    color = "#E63946",
+    vjust = -0.5,
+    show.legend = FALSE
+  ) +
+  
   scale_fill_manual(values = c(
     "budget" = "#1A3263",       # green
     "corrected" = "#FFA6A6",
-    "actual" = "#3A9AFF"
+    "actual" = "#3A9AFF",
+    "target" = "#E63946"   # new color
   ),
   
   labels = c(
     "budget" = "বাজেট",       # green
     "corrected" = "সংশোধিত বাজেট",
-    "actual" = "প্রকৃত"
+    "actual" = "প্রকৃত",
+    "target" = "প্রাথ: লক্ষ্যমাত্রা (বিসি-১)"   # 👈 your legend text
   ),
   drop = FALSE) +
   
