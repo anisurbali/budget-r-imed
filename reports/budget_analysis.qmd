@@ -62,6 +62,8 @@ df_table <- tibble(
 
 df_table <- budget %>% filter(type == 1)
 
+#---------------------------------------------------------------------------------
+
 ## sum rows for budget assistance to BPPA
 
 bppa_total <- df_table %>% 
@@ -76,8 +78,12 @@ df_table <- df_table %>%
 
 df_table <- bind_rows(df_table, bppa_total)
 
+#---------------------------------------------------------------------------------
 
-df_total <- df_table %>% 
+
+
+
+df_total <- df_table %>%
   summarise(
     across(
       where(is.numeric), ~sum(.x, na.rm = TRUE)
@@ -87,6 +93,29 @@ df_total$code_name <- "মোট:"
 
 df_table <- bind_rows(df_table, df_total)
 
+#---------------------------------------------------------------------------------
+
+
+
+
+df_total <- df_table %>%
+  filter(inst_code == "1150101103364") %>% 
+  summarise(
+    across(
+      where(is.numeric), ~sum(.x, na.rm = TRUE)
+    )) 
+
+df_total$code_name <- "মোট (বিপিপিএ ব্যতীত)"
+
+df_table <- bind_rows(df_table, df_total)
+
+#---------------------------------------------------------------------------------
+
+df_total <- df_table %>% 
+  summarise(
+    across(
+      where(is.numeric), ~ sum(.x, na.rm = TRUE)
+    )) 
 
 ## insert group rows
 group_row <- df_table %>%
@@ -98,7 +127,12 @@ group_row$code_name <- "৩১১১: নগদ, মজুরি ও বেত�
 
 df_table <- bind_rows(group_row, df_table)
 
-#------------------------------
+#---------------------------------------------------------------------------------
+
+
+
+
+
 
 
 ## insert group rows
@@ -373,19 +407,24 @@ ft <- width(ft,
 
 
 
+ft <- delete_rows(ft, i = ~ (budget26_27 == 0 & desc != "বাজেট সহায়তা বিপিপিএ") |
+                    is.na(budget26_27) |
+                    (budget26_27 == fd_advice & grepl("-", desc)) )
+
+
 ```
 
 ```{r table_partA}
 
 ft <- bold(
   ft,
-  i = grepl(":|বাজেট সহায়তা", df$desc),
+  i = ~grepl(":|বিপিপিএ", desc),
   bold = TRUE
 )
 
 ft <- padding(
   ft,
-  i = grepl("-", df$desc),
+  i = ~ grepl("-", desc),
   j = "desc",
   padding.left = 15,
   part = "body"
@@ -397,11 +436,6 @@ ft <- border(
   part = "all"
 )
 
-
-
-ft <- delete_rows(ft, i = ~ (budget26_27 == 0 & desc != "বাজেট সহায়তা বিপিপিএ") |
-                    is.na(budget26_27) |
-                    (budget26_27 == fd_advice & grepl("-", desc)) )
 
 
 
