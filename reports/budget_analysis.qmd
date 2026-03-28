@@ -316,12 +316,12 @@ df_table <- bind_rows(
 ## insert group rows
 group_row <- df_table %>%
   filter(
-    substr(economic_code, 1, 4) == "41"
+    substr(economic_code, 1, 2) == "41"
   ) %>% 
   summarise(across(where(is.numeric), ~sum(.x, na.rm = TRUE)))
 group_row$code_name <- "৪১: অআর্থিক সম্পদ"
 
-pos <- which(grepl("4111309", df_table$economic_code))
+pos <- which(grepl("4111325", df_table$economic_code))
 
 df_table <- bind_rows(
   slice(df_table, 1:(pos-1)),
