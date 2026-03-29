@@ -535,7 +535,7 @@ labels = c(
   
   scale_color_manual(values = c(
     "ratio_exp" = "#3D45AA"),
-    labels = c("ratio_exp" = "প্রকৃত এর হার (সংশোধিতের তুলনায়)")
+    labels = c("ratio_exp" = "প্রকৃত এর হার (সংশোধিত বাজেটের তুলনায়)")
   ) +
   
   # Merge legends
@@ -548,11 +548,11 @@ theme(
   legend.position = "bottom",
   legend.direction = "horizontal",
   legend.box = "horizontal",
-  legend.text = element_text(size = 14),
-  axis.text = element_text(size = 14,
+  legend.text = element_text(size = 18),
+  axis.text = element_text(size = 18,
                              color = "black"),
   axis.title.x = element_blank(),
-  axis.title.y = element_text(size = 14)
+  axis.title.y = element_text(size = 18)
 ) +
   
   guides(
@@ -714,7 +714,7 @@ labels = c(
   
   scale_color_manual(values = c(
     "ratio_exp" = "#3D45AA"),
-    labels = c("ratio_exp" = "প্রকৃত এর হার (সংশোধিতের তুলনায়)")
+    labels = c("ratio_exp" = "প্রকৃত এর হার (সংশোধিত বাজেটের তুলনায়)")
   ) +
   
   # Merge legends
@@ -727,11 +727,11 @@ theme(
   legend.position = "bottom",
   legend.direction = "horizontal",
   legend.box = "horizontal",
-  legend.text = element_text(size = 14),
-  axis.text = element_text(size = 14,
+  legend.text = element_text(size = 18),
+  axis.text = element_text(size = 18,
                            color = "black"),
   axis.title.x = element_blank(),
-  axis.title.y = element_text(size = 14)
+  axis.title.y = element_text(size = 18)
 ) +
   
   guides(

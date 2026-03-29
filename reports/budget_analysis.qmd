@@ -406,17 +406,17 @@ ft <- width(ft,
 )
 
 # 
+
+ft <- delete_rows(ft, i = ~ (budget26_27 == 0 & desc != "বাজেট সহায়তা বিপিপিএ") |
+                    is.na(budget26_27) |
+                    (budget26_27 == fd_advice & grepl("-", desc)) )
+
+
+
+# 
 # 
 # ft <- delete_rows(ft, i = ~ (budget26_27 == 0 & desc != "বাজেট সহায়তা বিপিপিএ") |
-#                     is.na(budget26_27) |
-#                     (budget26_27 == fd_advice & grepl("-", desc)) )
-# 
-
-
-# 
-# 
-ft <- delete_rows(ft, i = ~ (budget26_27 == 0 & desc != "বাজেট সহায়তা বিপিপিএ") |
-                    is.na(budget26_27) )
+#                     is.na(budget26_27) )
 
 ```
 
