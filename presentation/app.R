@@ -14,6 +14,8 @@ library(dplyr)
 library(writexl)
 library(readxl)
 library(ggplot2)
+# library(ggbreak)
+library(patchwork)
 
 source(here("R", "01_load_packages.R"))
 
@@ -124,6 +126,42 @@ make_budget_server <- function(id, df_reactive, graph_prefix, input, output, ses
   })
 }
 
+
+
+
+make_plot <- function(df, title_text) {
+  ggplot(df, aes(y = `বিবরণ`, x = `প্রাক্কলণ ২০২৬-২৭`)) +
+    geom_col(fill = "#7AAACE", width = 0.7) +
+    geom_segment(
+      aes(
+        x = `অর্থ বিভাগের সুপারিশ`,
+        xend = `অর্থ বিভাগের সুপারিশ`,
+        y = as.numeric(`বিবরণ`) - 0.32,
+        yend = as.numeric(`বিবরণ`) + 0.32
+      ),
+      color = "#D64541",
+      linewidth = 1.2
+    ) +
+    labs(
+      title = title_text,
+      x = "টাকা (কোটি)",
+      y = NULL
+    ) +
+    theme_minimal(base_family = "NikoshBAN", base_size = 18) +
+    theme(
+      panel.grid.major.y = element_blank(),
+      panel.grid.major.x = element_blank(),
+      panel.grid.minor = element_blank(),
+      axis.text.y = element_text(size = 14, colour = "black"),
+      axis.text.x = element_text(size = 12, colour = "black"),
+      plot.title = element_text(face = "bold", size = 20)
+    )
+}
+
+
+
+
+
 # 3. Create horizontal bar chart server
 make_budget_bar_server <- function(id, df_reactive, input, output, session) {
   
@@ -140,38 +178,65 @@ make_budget_bar_server <- function(id, df_reactive, input, output, session) {
     
     req(nrow(df) > 0)
     
+
     plot_df <- df %>%
-      arrange(desc(`প্রাক্কলণ ২০২৬-২৭`)) %>%
+      # arrange(desc(`প্রাক্কলণ ২০২৬-২৭`)) %>%
       mutate(
         `বিবরণ` = factor(`বিবরণ`, levels = rev(unique(`বিবরণ`)))
       )
+
     
-    ggplot(plot_df, aes(y = `বিবরণ`, x = `প্রাক্কলণ ২০২৬-২৭`)) +
-      geom_col(fill = "#7AAACE", width = 0.7) +
-      geom_segment(
-        aes(
-          x = `অর্থ বিভাগের সুপারিশ`,
-          xend = `অর্থ বিভাগের সুপারিশ`,
-          y = as.numeric(`বিবরণ`) - 0.32,
-          yend = as.numeric(`বিবরণ`) + 0.32
-        ),
-        color = "#D64541",
-        linewidth = 1.2
-      ) +
-      labs(
-        title = "প্রাক্কলণ ২০২৬-২৭ ও অর্থ বিভাগের সুপারিশ",
-        x = "টাকা (কোটি)",
-        y = NULL
-      ) +
-      theme_minimal(base_family = "NikoshBAN", base_size = 18) +
-      theme(
-        panel.grid.major.y = element_blank(),
-        panel.grid.minor = element_blank(),
-        panel.grid.major.x = element_line(color = "#E6E6E6"),
-        axis.text.y = element_text(size = 14, colour = "black"),
-        axis.text.x = element_text(size = 12, colour = "black"),
-        plot.title = element_text(face = "bold", size = 20)
-      )
+    
+    
+    plot_df_below20 <- plot_df %>%
+      filter(`প্রাক্কলণ ২০২৬-২৭` < 2)
+    
+    plot_df_above20 <- plot_df %>%
+      filter(`প্রাক্কলণ ২০২৬-২৭` >= 2)
+    
+    
+    
+    
+    p1 <- make_plot(plot_df_below20, "২-এর নিচে আইটেমসমূহ")
+    p2 <- make_plot(plot_df_above20, "২ বা তার বেশি আইটেমসমূহ")
+    
+    
+    
+    
+    p1 / p2
+
+    
+    
+    
+    
+    # ggplot(plot_df, aes(y = `বিবরণ`, x = `প্রাক্কলণ ২০২৬-২৭`)) +
+    #   geom_col(fill = "#7AAACE", width = 0.7) +
+    #   geom_segment(
+    #     aes(
+    #       x = `অর্থ বিভাগের সুপারিশ`,
+    #       xend = `অর্থ বিভাগের সুপারিশ`,
+    #       y = as.numeric(`বিবরণ`) - 0.32,
+    #       yend = as.numeric(`বিবরণ`) + 0.32
+    #     ),
+    #     color = "#D64541",
+    #     linewidth = 1.2
+    #   ) +
+    # 
+    #   
+    #   labs(
+    #     title = "প্রাক্কলণ ২০২৬-২৭ ও অর্থ বিভাগের সুপারিশ",
+    #     x = "টাকা (কোটি)",
+    #     y = NULL
+    #   ) +
+    #   theme_minimal(base_family = "NikoshBAN", base_size = 18) +
+    #   theme(
+    #     panel.grid.major.y = element_blank(),
+    #     panel.grid.minor = element_blank(),
+    #     panel.grid.major.x = element_line(color = "#E6E6E6"),
+    #     axis.text.y = element_text(size = 14, colour = "black"),
+    #     axis.text.x = element_text(size = 12, colour = "black"),
+    #     plot.title = element_text(face = "bold", size = 20)
+    #   )
   }, height = function() {
     df <- df_reactive()
     
